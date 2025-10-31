@@ -34,12 +34,11 @@ function LoginForm() {
         setLoading(false);
       } else if (result?.ok) {
         console.log("Sign in successful, redirecting...");
-        // Wait for session to be established, then redirect
-        setTimeout(() => {
-          setLoading(false);
-          console.log("Redirecting to:", callbackUrl);
-          window.location.href = callbackUrl;
-        }, 1000);
+        setLoading(false);
+        console.log("Redirecting to:", callbackUrl);
+        window.location.href = callbackUrl.startsWith("http")
+          ? callbackUrl
+          : `https://algoloom.sadman.me${callbackUrl}`;
       } else {
         console.log("Sign in result unclear:", result);
         setError("Sign in failed");
