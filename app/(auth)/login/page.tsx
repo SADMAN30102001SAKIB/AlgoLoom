@@ -13,8 +13,7 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleCredentialsLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCredentialsLogin = async () => {
     setError("");
     setLoading(true);
 
@@ -56,7 +55,7 @@ function LoginForm() {
           </div>
         )}
 
-        <form onSubmit={handleCredentialsLogin} className="space-y-6">
+        <form className="space-y-6">
           <div>
             <label
               htmlFor="email"
@@ -92,7 +91,8 @@ function LoginForm() {
           </div>
 
           <button
-            type="submit"
+            type="button"
+            onClick={handleCredentialsLogin}
             disabled={loading}
             className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-purple-500/50 transition disabled:opacity-50 disabled:cursor-not-allowed">
             {loading ? "Signing in..." : "Sign In"}
