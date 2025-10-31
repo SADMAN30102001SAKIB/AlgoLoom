@@ -36,9 +36,11 @@ function LoginForm() {
         console.log("Sign in successful, redirecting...");
         setLoading(false);
         console.log("Redirecting to:", callbackUrl);
-        window.location.href = callbackUrl.startsWith("http")
+        const fullUrl = callbackUrl.startsWith("http")
           ? callbackUrl
           : `https://algoloom.sadman.me${callbackUrl}`;
+        console.log("Full URL:", fullUrl);
+        window.location.assign(fullUrl);
       } else {
         console.log("Sign in result unclear:", result);
         setError("Sign in failed");
