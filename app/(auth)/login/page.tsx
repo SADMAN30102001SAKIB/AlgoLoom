@@ -33,13 +33,16 @@ function LoginForm() {
         setLoading(false);
       } else if (result?.ok) {
         console.log("Sign in successful, redirecting...");
-        setLoading(false);
-        console.log("Redirecting to:", callbackUrl);
-        const fullUrl = callbackUrl.startsWith("http")
-          ? callbackUrl
-          : `https://algoloom.sadman.me${callbackUrl}`;
-        console.log("Full URL:", fullUrl);
-        window.location.assign(fullUrl);
+        // Wait a moment for session to be fully established
+        setTimeout(() => {
+          setLoading(false);
+          console.log("Redirecting to:", callbackUrl);
+          const fullUrl = callbackUrl.startsWith("http")
+            ? callbackUrl
+            : `https://algoloom.sadman.me${callbackUrl}`;
+          console.log("Full URL:", fullUrl);
+          window.location.replace(fullUrl);
+        }, 500);
       } else {
         console.log("Sign in result unclear:", result);
         setError("Sign in failed");
