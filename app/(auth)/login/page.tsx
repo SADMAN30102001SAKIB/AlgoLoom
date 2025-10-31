@@ -1,17 +1,26 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { useState, Suspense, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 function LoginForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const { data: session, status } = useSession();
   const callbackUrl = searchParams.get("callbackUrl") || "/problems";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Redirect when session is established
+  useEffect(() => {
+    if (status === "authenticated" && session) {
+      router.push(callbackUrl);
+    }
+  }, [status, session, router, callbackUrl]);
 
   const handleCredentialsLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,9 +36,10 @@ function LoginForm() {
 
       if (result?.error) {
         setError("Invalid email or password");
-      } else {
-        window.location.href = callbackUrl;
       }
+      // Session establishment will be handled by useEffect
+    } catch {
+      setError("An error occurred during sign in");
     } finally {
       setLoading(false);
     }
