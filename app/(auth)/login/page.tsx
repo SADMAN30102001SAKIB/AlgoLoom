@@ -2,12 +2,11 @@
 
 import { signIn } from "next-auth/react";
 import { useState, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 function LoginForm() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const callbackUrl = searchParams.get("callbackUrl") || "/problems";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,9 +29,10 @@ function LoginForm() {
         setError("Invalid email or password");
         setLoading(false);
       } else {
-        // Wait a bit for session to be established, then redirect
+        // Wait for session to be established, then redirect
         setTimeout(() => {
-          router.push(callbackUrl);
+          setLoading(false);
+          window.location.href = callbackUrl;
         }, 500);
       }
     } catch {
