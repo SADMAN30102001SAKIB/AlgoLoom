@@ -184,6 +184,33 @@ export const authConfig: NextAuthConfig = {
       console.log("Final session:", { user: session.user });
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      console.log("Redirect callback called with:", { url, baseUrl });
+
+      // Check if this is a login redirect (not a callbackUrl redirect)
+      if (url === baseUrl || url === `${baseUrl}/`) {
+        try {
+          // Small delay to ensure session is established
+          await new Promise(resolve => setTimeout(resolve, 100));
+          const session = await auth();
+          if (session?.user?.role === "ADMIN") {
+            console.log("Admin user detected in redirect, going to /admin");
+            return `${baseUrl}/admin`;
+          }
+          console.log("Regular user, going to /problems");
+          return `${baseUrl}/problems`;
+        } catch (error) {
+          console.log("Error checking session in redirect:", error);
+        }
+      }
+
+      // Allow relative URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allow same-origin absolute URLs
+      if (new URL(url).origin === baseUrl) return url;
+      // Default to home
+      return baseUrl;
+    },
   },
   pages: {
     signIn: "/login",

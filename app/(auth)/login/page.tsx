@@ -20,14 +20,43 @@ function LoginForm() {
 
     try {
       console.log("About to call signIn...");
-      await signIn("credentials", {
+      const result = await signIn("credentials", {
         email,
         password,
-        redirect: true,
-        callbackUrl,
+        redirect: false,
       });
-      console.log("Sign in initiated, NextAuth will handle redirect");
-      // NextAuth will redirect on success or show error on failure
+      console.log("Sign in result:", result);
+
+      if (result?.error) {
+        console.log("Sign in error:", result.error);
+        setError("Invalid email or password");
+        setLoading(false);
+      } else if (result?.ok) {
+        console.log("Sign in successful, checking user role for redirect...");
+
+        // Check user role to determine redirect destination
+        try {
+          const response = await fetch("/api/user/me");
+          if (response.ok) {
+            const userData = await response.json();
+            const redirectUrl =
+              userData.role === "ADMIN" ? "/admin" : callbackUrl || "/problems";
+            console.log(
+              "User role:",
+              userData.role,
+              "redirecting to:",
+              redirectUrl,
+            );
+            window.location.href = redirectUrl;
+          } else {
+            console.log("Failed to fetch user data, redirecting to default");
+            window.location.href = callbackUrl || "/problems";
+          }
+        } catch (fetchError) {
+          console.error("Error fetching user data:", fetchError);
+          window.location.href = callbackUrl || "/problems";
+        }
+      }
     } catch (error) {
       console.error("Sign in exception:", error);
       setError("An error occurred during sign in");
@@ -36,7 +65,7 @@ function LoginForm() {
   };
 
   const handleOAuthLogin = (provider: "google" | "github") => {
-    signIn(provider, { callbackUrl });
+    signIn(provider);
   };
 
   return (
