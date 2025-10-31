@@ -70,6 +70,19 @@ export const authConfig: NextAuthConfig = {
             : undefined,
       },
     },
+    callbackUrl: {
+      name: `next-auth.callback-url`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+        domain:
+          process.env.NODE_ENV === "production"
+            ? "algoloom.sadman.me"
+            : undefined,
+      },
+    },
   },
   callbacks: {
     async signIn({ user, account }) {
