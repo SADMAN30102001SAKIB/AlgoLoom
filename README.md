@@ -4,8 +4,6 @@
 
 AlgoLoom is a modern LeetCode-style platform that combines competitive programming with gamification and AI-powered assistance. Solve algorithmic problems, get intelligent hints when stuck, earn XP, unlock achievements, and compete on the global leaderboard.
 
-![AlgoLoom Banner](https://via.placeholder.com/1200x400/0f172a/22d3ee?text=AlgoLoom+-+Master+Algorithms)
-
 ## ✨ Features
 
 ### 🧠 AI-Powered Hints
@@ -32,7 +30,7 @@ AlgoLoom is a modern LeetCode-style platform that combines competitive programmi
 
 ### 🔍 Problem Library
 
-- **500+ problems** from top tech companies
+- **~30+ problems** from top tech companies
 - Filter by **difficulty**, **tags**, **companies**, and **status**
 - Real-time code execution with **Judge0 API**
 - Detailed test case results and performance metrics
@@ -43,6 +41,13 @@ AlgoLoom is a modern LeetCode-style platform that combines competitive programmi
 - Activity heatmap (GitHub-style contribution graph)
 - Submission history and acceptance rate
 - Social links (GitHub, LinkedIn, website)
+
+### 🛡️ Admin Panel
+
+- **Problem Management**: Add, edit, and remove coding problems
+- **User Management**: View user statistics and manage accounts
+- **System Monitoring**: Track platform usage and performance
+- **Content Moderation**: Review and approve user-generated content
 
 ## 🚀 Tech Stack
 
@@ -65,9 +70,6 @@ AlgoLoom is a modern LeetCode-style platform that combines competitive programmi
 
 - **Judge0 API** (code execution via RapidAPI)
 - **Google Gemini 1.5 Flash** (AI hints)
-- **Upstash Redis** (caching & rate limiting)
-- **Cloudinary** (image uploads)
-- **Resend** (transactional emails)
 
 ## 📦 Installation
 
@@ -130,38 +132,47 @@ Open [http://localhost:3000](http://localhost:3000) 🎉
 
 ```
 algoloom/
-├── app/                    # Next.js App Router
-│   ├── api/               # API routes
+├── app/                  # Next.js App Router
+│   ├── api/              # API routes
+│   │   ├── achievements/ # Achievement system
+│   │   ├── admin/        # Admin-only endpoints
 │   │   ├── auth/         # NextAuth handlers
-│   │   ├── problems/     # Problem CRUD
-│   │   ├── submit/       # Code submission
+│   │   ├── companies/    # Company data
 │   │   ├── hints/        # AI hint generation
-│   │   ├── leaderboard/  # Rankings
-│   │   └── user/         # User profiles
+│   │   ├── leaderboard/  # Rankings (API only)
+│   │   ├── problems/     # Problem CRUD
+│   │   ├── submit-stream/# Real-time code submission
+│   │   ├── submissions/  # Submission history
+│   │   ├── tags/         # Problem tags
+│   │   └── user/         # User profiles (API only)
+│   ├── (admin)/          # Admin panel routes
+│   │   └── admin/        # Problem & user management
+│   ├── (auth)/           # Authentication routes
+│   │   ├── login/        # Sign in page
+│   │   └── register/     # Sign up page
 │   ├── (dashboard)/      # Protected routes
 │   │   ├── problems/     # Problem list & solver
-│   │   ├── profile/      # User profiles
-│   │   └── leaderboard/  # Global rankings
+│   │   └── submissions/  # Submission details
 │   ├── layout.tsx        # Root layout
 │   └── page.tsx          # Landing page
 ├── components/           # React components
-│   ├── ui/              # Base components (shadcn/ui)
-│   ├── editor/          # Monaco code editor
-│   ├── problem/         # Problem cards, filters
-│   ├── submission/      # Verdict badges
-│   └── providers/       # React Query, NextAuth
-├── lib/                 # Utility libraries
-│   ├── prisma.ts       # Prisma client
-│   ├── auth.ts         # NextAuth config
-│   ├── judge0.ts       # Judge0 API client
-│   ├── gemini.ts       # Gemini AI client
-│   └── gamification/   # XP, streaks, achievements
+│   ├── ui/               # Base components (shadcn/ui)
+│   ├── editor/           # Monaco code editor
+│   ├── problem/          # Problem cards, filters
+│   ├── submission/       # Verdict badges
+│   └── providers/        # React Query, NextAuth
+├── lib/                  # Utility libraries
+│   ├── prisma.ts         # Prisma client
+│   ├── auth.ts           # NextAuth config
+│   ├── judge0.ts         # Judge0 API client
+│   ├── gemini.ts         # Gemini AI client
+│   └── gamification/     # XP, streaks, achievements
 ├── prisma/
-│   ├── schema.prisma   # Database schema
-│   └── seed.ts         # Seed data
-├── middleware.ts       # Rate limiting, auth guards
-├── tailwind.config.ts  # Tailwind configuration
-└── package.json        # Dependencies
+│   ├── schema.prisma     # Database schema
+│   └── seed.ts           # Seed data
+├── middleware.ts         # Rate limiting, auth guards
+├── tailwind.config.ts    # Tailwind configuration
+└── package.json          # Dependencies
 
 ```
 
@@ -186,21 +197,27 @@ algoloom/
 
 ## 🧪 API Endpoints
 
-| Endpoint               | Method    | Description                          |
-| ---------------------- | --------- | ------------------------------------ |
-| `/api/problems`        | GET       | List problems with filters           |
-| `/api/problems`        | POST      | Create problem (ADMIN)               |
-| `/api/problems/[slug]` | GET       | Get single problem                   |
-| `/api/submit-stream`   | POST      | Submit code solution (SSE streaming) |
-| `/api/hints`           | POST      | Generate AI hint                     |
-| `/api/leaderboard`     | GET       | Get global rankings                  |
-| `/api/user/[username]` | GET       | Get user profile                     |
-| `/api/user/me`         | GET/PATCH | Current user data                    |
-| `/api/achievements`    | GET       | List achievements                    |
+| Endpoint                | Method    | Description                          |
+| ----------------------- | --------- | ------------------------------------ |
+| `/api/problems`         | GET       | List problems with filters           |
+| `/api/problems`         | POST      | Create problem (ADMIN)               |
+| `/api/problems/[slug]`  | GET       | Get single problem                   |
+| `/api/submit-stream`    | POST      | Submit code solution (SSE streaming) |
+| `/api/submissions`      | GET       | Get user submission history          |
+| `/api/submissions/[id]` | GET       | Get submission details               |
+| `/api/hints`            | POST      | Generate AI hint                     |
+| `/api/leaderboard`      | GET       | Get global rankings                  |
+| `/api/user/[username]`  | GET       | Get user profile                     |
+| `/api/user/me`          | GET/PATCH | Current user data                    |
+| `/api/achievements`     | GET       | List achievements                    |
+| `/api/admin/problems`   | GET       | Admin: List all problems             |
+| `/api/admin/users`      | GET       | Admin: List all users                |
+| `/api/companies`        | GET       | Get company data                     |
+| `/api/tags`             | GET       | Get problem tags                     |
 
 ## 🔒 Security
 
-- **Rate Limiting**: API endpoints have rate limits (10 submissions/min, 5 hints/min)
+- **Rate Limiting**: API endpoints have rate limits (100 requests/min default, 1 submission/min, 5 hints/min, 30 problems/min)
 - **Authentication**: NextAuth.js with JWT sessions
 - **Authorization**: Role-based access control (USER/ADMIN)
 - **SQL Injection**: Protected by Prisma parameterized queries
@@ -248,7 +265,7 @@ Contributions are welcome! Please follow these steps:
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
@@ -257,12 +274,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **shadcn/ui** for beautiful component library
 - **Vercel** for hosting platform
 - **Neon** for serverless PostgreSQL
-
-## 📧 Contact
-
-- **Website**: [algoloom.com](https://algoloom.com)
-- **Email**: contact@algoloom.com
-- **Twitter**: [@algoloom](https://twitter.com/algoloom)
 
 ---
 
