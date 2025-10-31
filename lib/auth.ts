@@ -56,6 +56,17 @@ export const authConfig: NextAuthConfig = {
   session: {
     strategy: "jwt" as const,
   },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
   callbacks: {
     async signIn({ user, account }) {
       // For OAuth providers, ensure user exists in database
@@ -69,12 +80,13 @@ export const authConfig: NextAuthConfig = {
         if (!existingUser) {
           // Create new user for OAuth login
           const username =
-            user.email.split("@")[0] + Math.floor(Math.random() * 1000);
+            user.email!.split("@")[0] + Math.floor(Math.random() * 1000);
 
           await prisma.user.create({
             data: {
-              email: user.email,
+              email: user.email!,
               username: username,
+              name: user.name,
               image: user.image,
               emailVerified: new Date(),
               role: "USER",

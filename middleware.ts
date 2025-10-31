@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
 
     // Different limits for different endpoints
     let limit = 100; // requests per minute
-    let windowMs = 60 * 1000; // 1 minute
+    const windowMs = 60 * 1000; // 1 minute
 
     if (pathname.startsWith("/api/submit-stream")) {
       limit = 1; // 1 submission per minute
@@ -76,7 +76,7 @@ export async function middleware(request: NextRequest) {
     });
 
     if (!token) {
-      const signInUrl = new URL("/api/auth/signin", request.url);
+      const signInUrl = new URL("/login", request.url);
       signInUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(signInUrl);
     }
