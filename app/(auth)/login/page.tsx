@@ -2,11 +2,12 @@
 
 import { signIn } from "next-auth/react";
 import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 function LoginForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const callbackUrl = searchParams.get("callbackUrl") || "/problems";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,7 +42,16 @@ function LoginForm() {
             ? callbackUrl
             : `https://algoloom.sadman.me${callbackUrl}`;
           console.log("Full URL:", fullUrl);
-          window.location.replace(fullUrl);
+          // Try router.push first
+          try {
+            router.push(callbackUrl);
+            console.log("Router.push executed successfully");
+          } catch (routerError) {
+            console.error("Router.push failed:", routerError);
+            // Fallback to window.location
+            window.location.href = fullUrl;
+            console.log("Fallback to window.location.href");
+          }
         }, 500);
       } else {
         console.log("Sign in result unclear:", result);
