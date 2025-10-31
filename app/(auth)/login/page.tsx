@@ -14,18 +14,37 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   const handleCredentialsLogin = async () => {
+    console.log("Starting sign in...");
     setError("");
     setLoading(true);
 
     try {
-      console.log("Starting sign in...");
-      await signIn("credentials", {
+      console.log("About to call signIn...");
+      const result = await signIn("credentials", {
         email,
         password,
-        redirect: true,
-        callbackUrl,
+        redirect: false,
       });
-      // NextAuth will handle the redirect automatically
+      console.log("Sign in completed, result:", result);
+
+      if (result?.error) {
+        console.log("Sign in error:", result.error);
+        setError("Invalid email or password");
+        setLoading(false);
+      } else if (result?.ok) {
+        console.log("Sign in successful, redirecting...");
+        setLoading(false);
+        console.log("Redirecting to:", callbackUrl);
+        const fullUrl = callbackUrl.startsWith("http")
+          ? callbackUrl
+          : `https://algoloom.sadman.me${callbackUrl}`;
+        console.log("Full URL:", fullUrl);
+        window.location.assign(fullUrl);
+      } else {
+        console.log("Sign in result unclear:", result);
+        setError("Sign in failed");
+        setLoading(false);
+      }
     } catch (error) {
       console.error("Sign in exception:", error);
       setError("An error occurred during sign in");
@@ -55,7 +74,7 @@ function LoginForm() {
           </div>
         )}
 
-        <form className="space-y-6">
+        <div className="space-y-6">
           <div>
             <label
               htmlFor="email"
@@ -97,7 +116,7 @@ function LoginForm() {
             className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-purple-500/50 transition disabled:opacity-50 disabled:cursor-not-allowed">
             {loading ? "Signing in..." : "Sign In"}
           </button>
-        </form>
+        </div>
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
