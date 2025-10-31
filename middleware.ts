@@ -70,12 +70,29 @@ export async function middleware(request: NextRequest) {
   );
 
   if (isProtectedPath) {
+    console.log("Middleware: Checking protected path:", pathname);
+    console.log(
+      "Middleware: Request cookies:",
+      request.cookies
+        .getAll()
+        .map(c => ({ name: c.name, value: c.value.substring(0, 20) + "..." })),
+    );
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
     });
+    console.log(
+      "Middleware: Token retrieved:",
+      !!token,
+      token ? { id: token.id, email: token.email, role: token.role } : null,
+    );
+    console.log(
+      "Middleware: NEXTAUTH_SECRET length:",
+      process.env.NEXTAUTH_SECRET?.length,
+    );
 
     if (!token) {
+      console.log("Middleware: No token found, redirecting to login");
       const signInUrl = new URL("/login", request.url);
       signInUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(signInUrl);
@@ -87,12 +104,21 @@ export async function middleware(request: NextRequest) {
   const isAdminPath = adminPaths.some(path => pathname.startsWith(path));
 
   if (isAdminPath) {
+    console.log("Middleware: Checking admin path:", pathname);
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
     });
+    console.log(
+      "Middleware: Admin token retrieved:",
+      !!token,
+      token ? { id: token.id, email: token.email, role: token.role } : null,
+    );
 
     if (!token || token.role !== "ADMIN") {
+      console.log(
+        "Middleware: No admin token or insufficient role, redirecting to home",
+      );
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

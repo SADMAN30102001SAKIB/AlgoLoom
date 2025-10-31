@@ -65,7 +65,9 @@ export const authConfig: NextAuthConfig = {
         path: "/",
         secure: true,
         domain:
-          process.env.NODE_ENV === "production" ? ".sadman.me" : undefined,
+          process.env.NODE_ENV === "production"
+            ? "algoloom.sadman.me"
+            : undefined,
       },
     },
     callbackUrl: {
@@ -76,7 +78,9 @@ export const authConfig: NextAuthConfig = {
         path: "/",
         secure: true,
         domain:
-          process.env.NODE_ENV === "production" ? ".sadman.me" : undefined,
+          process.env.NODE_ENV === "production"
+            ? "algoloom.sadman.me"
+            : undefined,
       },
     },
     csrfToken: {
@@ -87,21 +91,32 @@ export const authConfig: NextAuthConfig = {
         path: "/",
         secure: true,
         domain:
-          process.env.NODE_ENV === "production" ? ".sadman.me" : undefined,
+          process.env.NODE_ENV === "production"
+            ? "algoloom.sadman.me"
+            : undefined,
       },
     },
   },
   callbacks: {
     async signIn({ user, account }) {
+      console.log("SignIn callback called with:", {
+        user: !!user,
+        account: !!account,
+      });
       // For OAuth providers, ensure user exists in database
       if (account?.provider === "google" || account?.provider === "github") {
-        if (!user.email) return false;
+        console.log("OAuth signIn for provider:", account.provider);
+        if (!user.email) {
+          console.log("No email provided for OAuth");
+          return false;
+        }
 
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
 
         if (!existingUser) {
+          console.log("Creating new OAuth user for:", user.email);
           // Create new user for OAuth login
           const username =
             user.email!.split("@")[0] + Math.floor(Math.random() * 1000);
@@ -116,32 +131,57 @@ export const authConfig: NextAuthConfig = {
               role: "USER",
             },
           });
+        } else {
+          console.log("Existing OAuth user found:", existingUser.id);
         }
+      } else {
+        console.log("Credentials signIn - user:", user?.email);
       }
+      console.log("SignIn result: true");
       return true;
     },
     async jwt({ token, user }) {
+      console.log("JWT callback called with:", {
+        token: !!token,
+        user: !!user,
+      });
       if (user?.id) {
+        console.log("Setting user ID in token:", user.id);
         token.id = user.id;
         token.role = user.role;
       }
       // For OAuth, fetch user from database if not set
       if (!token.id && token.email) {
+        console.log("Fetching user from DB for email:", token.email);
         const dbUser = await prisma.user.findUnique({
           where: { email: token.email as string },
         });
         if (dbUser) {
+          console.log("Found user in DB:", dbUser.id);
           token.id = dbUser.id;
           token.role = dbUser.role;
+        } else {
+          console.log("User not found in DB");
         }
       }
+      console.log("Final token:", {
+        id: token.id,
+        email: token.email,
+        role: token.role,
+      });
       return token;
     },
     async session({ session, token }) {
+      console.log("Session callback called with:", {
+        session: !!session,
+        token: !!token,
+      });
       if (session.user) {
+        console.log("Setting session user ID:", token.id);
         session.user.id = token.id;
         session.user.role = token.role;
       }
+      console.log("Final session:", { user: session.user });
       return session;
     },
   },

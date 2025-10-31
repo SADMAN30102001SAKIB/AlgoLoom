@@ -2,12 +2,11 @@
 
 import { signIn } from "next-auth/react";
 import { useState, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 function LoginForm() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const callbackUrl = searchParams.get("callbackUrl") || "/problems";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,43 +20,14 @@ function LoginForm() {
 
     try {
       console.log("About to call signIn...");
-      const result = await signIn("credentials", {
+      await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        redirect: true,
+        callbackUrl,
       });
-      console.log("Sign in completed, result:", result);
-
-      if (result?.error) {
-        console.log("Sign in error:", result.error);
-        setError("Invalid email or password");
-        setLoading(false);
-      } else if (result?.ok) {
-        console.log("Sign in successful, redirecting...");
-        // Wait a moment for session to be fully established
-        setTimeout(() => {
-          setLoading(false);
-          console.log("Redirecting to:", callbackUrl);
-          const fullUrl = callbackUrl.startsWith("http")
-            ? callbackUrl
-            : `https://algoloom.sadman.me${callbackUrl}`;
-          console.log("Full URL:", fullUrl);
-          // Try router.push first
-          try {
-            router.push(callbackUrl);
-            console.log("Router.push executed successfully");
-          } catch (routerError) {
-            console.error("Router.push failed:", routerError);
-            // Fallback to window.location
-            window.location.href = fullUrl;
-            console.log("Fallback to window.location.href");
-          }
-        }, 500);
-      } else {
-        console.log("Sign in result unclear:", result);
-        setError("Sign in failed");
-        setLoading(false);
-      }
+      console.log("Sign in initiated, NextAuth will handle redirect");
+      // NextAuth will redirect on success or show error on failure
     } catch (error) {
       console.error("Sign in exception:", error);
       setError("An error occurred during sign in");
