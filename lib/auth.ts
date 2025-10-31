@@ -56,6 +56,21 @@ export const authConfig: NextAuthConfig = {
   session: {
     strategy: "jwt" as const,
   },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+        domain:
+          process.env.NODE_ENV === "production"
+            ? "algoloom.sadman.me"
+            : undefined,
+      },
+    },
+  },
   callbacks: {
     async signIn({ user, account }) {
       // For OAuth providers, ensure user exists in database
