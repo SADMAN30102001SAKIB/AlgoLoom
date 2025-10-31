@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { auth } from "@/lib/auth";
 
 // Rate limiting storage (use Redis/Upstash in production)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -77,22 +77,15 @@ export async function middleware(request: NextRequest) {
         .getAll()
         .map(c => ({ name: c.name, value: c.value.substring(0, 20) + "..." })),
     );
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
+    const session = await auth();
     console.log(
-      "Middleware: Token retrieved:",
-      !!token,
-      token ? { id: token.id, email: token.email, role: token.role } : null,
-    );
-    console.log(
-      "Middleware: NEXTAUTH_SECRET length:",
-      process.env.NEXTAUTH_SECRET?.length,
+      "Middleware: Session retrieved:",
+      !!session,
+      session ? { user: session.user } : null,
     );
 
-    if (!token) {
-      console.log("Middleware: No token found, redirecting to login");
+    if (!session?.user) {
+      console.log("Middleware: No session found, redirecting to login");
       const signInUrl = new URL("/login", request.url);
       signInUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(signInUrl);
@@ -105,19 +98,16 @@ export async function middleware(request: NextRequest) {
 
   if (isAdminPath) {
     console.log("Middleware: Checking admin path:", pathname);
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
+    const session = await auth();
     console.log(
-      "Middleware: Admin token retrieved:",
-      !!token,
-      token ? { id: token.id, email: token.email, role: token.role } : null,
+      "Middleware: Admin session retrieved:",
+      !!session,
+      session ? { user: session.user } : null,
     );
 
-    if (!token || token.role !== "ADMIN") {
+    if (!session?.user || session.user.role !== "ADMIN") {
       console.log(
-        "Middleware: No admin token or insufficient role, redirecting to home",
+        "Middleware: No admin session or insufficient role, redirecting to home",
       );
       return NextResponse.redirect(new URL("/", request.url));
     }
