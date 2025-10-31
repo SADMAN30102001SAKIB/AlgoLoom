@@ -19,23 +19,34 @@ function LoginForm() {
     setLoading(true);
 
     try {
+      console.log("Starting sign in...");
       const result = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
 
+      console.log("Sign in result:", result);
+
       if (result?.error) {
+        console.log("Sign in error:", result.error);
         setError("Invalid email or password");
         setLoading(false);
-      } else {
+      } else if (result?.ok) {
+        console.log("Sign in successful, redirecting...");
         // Wait for session to be established, then redirect
         setTimeout(() => {
           setLoading(false);
+          console.log("Redirecting to:", callbackUrl);
           window.location.href = callbackUrl;
-        }, 500);
+        }, 1000);
+      } else {
+        console.log("Sign in result unclear:", result);
+        setError("Sign in failed");
+        setLoading(false);
       }
-    } catch {
+    } catch (error) {
+      console.error("Sign in exception:", error);
       setError("An error occurred during sign in");
       setLoading(false);
     }
