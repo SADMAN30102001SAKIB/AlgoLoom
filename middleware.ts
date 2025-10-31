@@ -70,22 +70,9 @@ export async function middleware(request: NextRequest) {
   );
 
   if (isProtectedPath) {
-    console.log("Middleware: Checking protected path:", pathname);
-    console.log(
-      "Middleware: Request cookies:",
-      request.cookies
-        .getAll()
-        .map(c => ({ name: c.name, value: c.value.substring(0, 20) + "..." })),
-    );
     const session = await auth();
-    console.log(
-      "Middleware: Session retrieved:",
-      !!session,
-      session ? { user: session.user } : null,
-    );
 
     if (!session?.user) {
-      console.log("Middleware: No session found, redirecting to login");
       const signInUrl = new URL("/login", request.url);
       signInUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(signInUrl);
@@ -97,18 +84,9 @@ export async function middleware(request: NextRequest) {
   const isAdminPath = adminPaths.some(path => pathname.startsWith(path));
 
   if (isAdminPath) {
-    console.log("Middleware: Checking admin path:", pathname);
     const session = await auth();
-    console.log(
-      "Middleware: Admin session retrieved:",
-      !!session,
-      session ? { user: session.user } : null,
-    );
 
     if (!session?.user || session.user.role !== "ADMIN") {
-      console.log(
-        "Middleware: No admin session or insufficient role, redirecting to home",
-      );
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

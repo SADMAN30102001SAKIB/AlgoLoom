@@ -99,15 +99,9 @@ export const authConfig: NextAuthConfig = {
   },
   callbacks: {
     async signIn({ user, account }) {
-      console.log("SignIn callback called with:", {
-        user: !!user,
-        account: !!account,
-      });
       // For OAuth providers, ensure user exists in database
       if (account?.provider === "google" || account?.provider === "github") {
-        console.log("OAuth signIn for provider:", account.provider);
         if (!user.email) {
-          console.log("No email provided for OAuth");
           return false;
         }
 
@@ -116,7 +110,6 @@ export const authConfig: NextAuthConfig = {
         });
 
         if (!existingUser) {
-          console.log("Creating new OAuth user for:", user.email);
           // Create new user for OAuth login
           const username =
             user.email!.split("@")[0] + Math.floor(Math.random() * 1000);
@@ -131,62 +124,35 @@ export const authConfig: NextAuthConfig = {
               role: "USER",
             },
           });
-        } else {
-          console.log("Existing OAuth user found:", existingUser.id);
         }
-      } else {
-        console.log("Credentials signIn - user:", user?.email);
       }
-      console.log("SignIn result: true");
       return true;
     },
     async jwt({ token, user }) {
-      console.log("JWT callback called with:", {
-        token: !!token,
-        user: !!user,
-      });
       if (user?.id) {
-        console.log("Setting user ID in token:", user.id);
         token.id = user.id;
         token.role = user.role;
       }
       // For OAuth, fetch user from database if not set
       if (!token.id && token.email) {
-        console.log("Fetching user from DB for email:", token.email);
         const dbUser = await prisma.user.findUnique({
           where: { email: token.email as string },
         });
         if (dbUser) {
-          console.log("Found user in DB:", dbUser.id);
           token.id = dbUser.id;
           token.role = dbUser.role;
-        } else {
-          console.log("User not found in DB");
         }
       }
-      console.log("Final token:", {
-        id: token.id,
-        email: token.email,
-        role: token.role,
-      });
       return token;
     },
     async session({ session, token }) {
-      console.log("Session callback called with:", {
-        session: !!session,
-        token: !!token,
-      });
       if (session.user) {
-        console.log("Setting session user ID:", token.id);
         session.user.id = token.id;
         session.user.role = token.role;
       }
-      console.log("Final session:", { user: session.user });
       return session;
     },
     async redirect({ url, baseUrl }) {
-      console.log("Redirect callback called with:", { url, baseUrl });
-
       // Check if this is a login redirect (not a callbackUrl redirect)
       if (url === baseUrl || url === `${baseUrl}/`) {
         try {
@@ -194,13 +160,11 @@ export const authConfig: NextAuthConfig = {
           await new Promise(resolve => setTimeout(resolve, 100));
           const session = await auth();
           if (session?.user?.role === "ADMIN") {
-            console.log("Admin user detected in redirect, going to /admin");
             return `${baseUrl}/admin`;
           }
-          console.log("Regular user, going to /problems");
           return `${baseUrl}/problems`;
-        } catch (error) {
-          console.log("Error checking session in redirect:", error);
+        } catch {
+          // Error checking session in redirect
         }
       }
 
