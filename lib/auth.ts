@@ -65,9 +65,7 @@ export const authConfig: NextAuthConfig = {
         path: "/",
         secure: true,
         domain:
-          process.env.NODE_ENV === "production"
-            ? "algoloom.sadman.me"
-            : undefined,
+          process.env.NODE_ENV === "production" ? ".sadman.me" : undefined,
       },
     },
     callbackUrl: {
@@ -78,9 +76,18 @@ export const authConfig: NextAuthConfig = {
         path: "/",
         secure: true,
         domain:
-          process.env.NODE_ENV === "production"
-            ? "algoloom.sadman.me"
-            : undefined,
+          process.env.NODE_ENV === "production" ? ".sadman.me" : undefined,
+      },
+    },
+    csrfToken: {
+      name: `next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+        domain:
+          process.env.NODE_ENV === "production" ? ".sadman.me" : undefined,
       },
     },
   },
