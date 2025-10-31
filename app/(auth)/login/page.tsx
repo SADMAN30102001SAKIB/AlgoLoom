@@ -20,32 +20,13 @@ function LoginForm() {
 
     try {
       console.log("Starting sign in...");
-      const result = await signIn("credentials", {
+      await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        redirect: true,
+        callbackUrl,
       });
-
-      console.log("Sign in result:", result);
-
-      if (result?.error) {
-        console.log("Sign in error:", result.error);
-        setError("Invalid email or password");
-        setLoading(false);
-      } else if (result?.ok) {
-        console.log("Sign in successful, redirecting...");
-        setLoading(false);
-        console.log("Redirecting to:", callbackUrl);
-        const fullUrl = callbackUrl.startsWith("http")
-          ? callbackUrl
-          : `https://algoloom.sadman.me${callbackUrl}`;
-        console.log("Full URL:", fullUrl);
-        window.location.assign(fullUrl);
-      } else {
-        console.log("Sign in result unclear:", result);
-        setError("Sign in failed");
-        setLoading(false);
-      }
+      // NextAuth will handle the redirect automatically
     } catch (error) {
       console.error("Sign in exception:", error);
       setError("An error occurred during sign in");
