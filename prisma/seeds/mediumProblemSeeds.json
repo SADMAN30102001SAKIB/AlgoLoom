@@ -1,0 +1,849 @@
+[
+  {
+    "slug": "longest-substring-without-repeating-characters",
+    "title": "Longest Substring Without Repeating Characters",
+    "description": "Given a string s, find the length of the longest substring without repeating characters.",
+    "difficulty": "MEDIUM",
+    "constraints": ["0 <= s.length <= 5 * 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Hash Table", "Two Pointers", "String"],
+    "companies": ["Amazon", "Google"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "abcabcbb",
+        "output": "3",
+        "explanation": "The answer is \"abc\"."
+      },
+      {
+        "input": "bbbbb",
+        "output": "1",
+        "explanation": "The answer is \"b\"."
+      }
+    ],
+    "hints": [
+      "Use a sliding window with a set or map",
+      "Move left pointer when duplicate encountered"
+    ],
+    "inputFormat": "A single line containing the string s",
+    "outputFormat": "An integer representing the length of the longest substring without repeating characters",
+    "testCases": [
+      {
+        "input": "abcabcbb",
+        "output": "3",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "bbbbb",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "pwwkew",
+        "output": "3",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "",
+        "output": "0",
+        "isHidden": false,
+        "orderIndex": 3
+      },
+      {
+        "input": "a",
+        "output": "1",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "dvdf",
+        "output": "3",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "anviaj",
+        "output": "5",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "tmmzuxt",
+        "output": "5",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "abba",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "ohvhjdml",
+        "output": "6",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "container-with-most-water",
+    "title": "Container With Most Water",
+    "description": "Given n non-negative integers a1..an where each represents a point at coordinate (i, ai). n vertical lines are drawn. Find two lines that together with the x-axis form a container, such that the container contains the most water.",
+    "difficulty": "MEDIUM",
+    "constraints": ["2 <= n <= 10^5", "0 <= ai <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Two Pointers", "Array"],
+    "companies": ["Facebook", "Google"],
+    "examples": [
+      {
+        "input": "9\n1 8 6 2 5 4 8 3 7",
+        "output": "49",
+        "explanation": "Between lines 2 and 9"
+      }
+    ],
+    "hints": [
+      "Use two pointers starting at both ends",
+      "Move the shorter pointer inward"
+    ],
+    "inputFormat": "First line n, second line n space-separated integers representing heights",
+    "outputFormat": "Single integer area",
+    "testCases": [
+      {
+        "input": "9\n1 8 6 2 5 4 8 3 7",
+        "output": "49",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "2\n1 1",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "5\n1 2 1 2 1",
+        "output": "4",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "3\n3 9 3",
+        "output": "9",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "4\n1 3 2 5",
+        "output": "6",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "6\n2 3 4 5 18 17",
+        "output": "17",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "6\n2 3 10 5 7 8",
+        "output": "20",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "7\n2 3 4 5 18 17 6",
+        "output": "34",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "5\n5 4 3 2 1",
+        "output": "6",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "8\n1 1 1 1 1 1 1 1",
+        "output": "7",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "3sum",
+    "title": "3Sum",
+    "description": "Given an array nums, return all unique triplets [a,b,c] such that a+b+c == 0.",
+    "difficulty": "MEDIUM",
+    "constraints": ["0 <= nums.length <= 3000", "-10^5 <= nums[i] <= 10^5"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Two Pointers", "Array", "Sorting"],
+    "companies": ["Google"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "6\n-1 0 1 2 -1 -4",
+        "output": "[-1,-1,2],[-1,0,1]"
+      }
+    ],
+    "hints": [
+      "Sort and use two pointers for each first element",
+      "Skip duplicates"
+    ],
+    "inputFormat": "First line n, second line n integers",
+    "outputFormat": "Comma-separated list of triplets in any order",
+    "testCases": [
+      {
+        "input": "6\n-1 0 1 2 -1 -4",
+        "output": "[-1,-1,2],[-1,0,1]",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "3\n0 0 0",
+        "output": "[0,0,0]",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "4\n1 2 -2 -1",
+        "output": "[]",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "5\n-2 0 1 1 2",
+        "output": "[-2,0,2],[-2,1,1]",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "6\n-4 -2 -1 0 1 3",
+        "output": "[-4,1,3],[-2,-1,3]",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "7\n-1 0 1 2 -1 -4 2",
+        "output": "[-1,-1,2],[-1,0,1]",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "1\n1",
+        "output": "[]",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "8\n-3 -2 -1 0 1 2 3 4",
+        "output": "[-3,-1,4],[-3,0,3],[-3,1,2],[-2,-1,3],[-2,0,2],[-1,0,1]",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "6\n-5 -1 0 1 2 3",
+        "output": "[-5,2,3],[-1,0,1]",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "6\n-2 -2 0 0 2 2",
+        "output": "[-2,0,2]",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "merge-intervals",
+    "title": "Merge Intervals",
+    "description": "Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals.",
+    "difficulty": "MEDIUM",
+    "constraints": ["0 <= intervals.length <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Sorting", "Array"],
+    "companies": ["Microsoft"],
+    "examples": [
+      {
+        "input": "3\n1 3\n2 6\n8 10",
+        "output": "1 6\n8 10"
+      }
+    ],
+    "hints": ["Sort intervals by start", "Merge overlapping by tracking end"],
+    "inputFormat": "First line n, next n lines two integers each (start end)",
+    "outputFormat": "Merged intervals one per line start end",
+    "testCases": [
+      {
+        "input": "3\n1 3\n2 6\n8 10",
+        "output": "1 6\n8 10",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "2\n1 4\n4 5",
+        "output": "1 5",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "1\n1 10",
+        "output": "1 10",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "4\n1 4\n2 3\n5 6\n7 8",
+        "output": "1 4\n5 6\n7 8",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "4\n1 4\n4 5\n5 6\n6 7",
+        "output": "1 7",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "3\n0 1\n1 2\n2 3",
+        "output": "0 3",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "5\n1 2\n3 4\n5 6\n7 8\n9 10",
+        "output": "1 2\n3 4\n5 6\n7 8\n9 10",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "3\n2 3\n1 4\n5 6",
+        "output": "1 4\n5 6",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "2\n2 2\n2 2",
+        "output": "2 2",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "0\n",
+        "output": "",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "binary-tree-level-order-traversal",
+    "title": "Binary Tree Level Order Traversal",
+    "description": "Given the root of a binary tree represented as an array (level order with nulls), return the level order traversal as lines of node values.",
+    "difficulty": "MEDIUM",
+    "constraints": [
+      "The number of nodes in the tree is in the range [0, 10^4]"
+    ],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Tree", "Breadth-first Search"],
+    "companies": ["Apple"],
+    "examples": [
+      {
+        "input": "7\n3 9 20 null null 15 7",
+        "output": "3\n9 20\n15 7"
+      }
+    ],
+    "hints": ["Use a queue for BFS", "Track level size to separate levels"],
+    "inputFormat": "First line n, second line n values (use 'null' for missing nodes)",
+    "outputFormat": "Each level on its own line, values space-separated",
+    "testCases": [
+      {
+        "input": "7\n3 9 20 null null 15 7",
+        "output": "3\n9 20\n15 7",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "0\n",
+        "output": "",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "1\n1",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "1\n2 3",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "5\n1 null 2 null 3",
+        "output": "1\n2\n3",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "6\n1 2 3 4 5 6",
+        "output": "1\n2 3\n4 5 6",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "4\n1 2 null 3",
+        "output": "1\n2\n3",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "8\n1 2 3 4 5 6 7 8",
+        "output": "1\n2 3\n4 5 6 7\n8",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "5\n-1 -2 -3 -4 -5",
+        "output": "-1\n-2 -3\n-4 -5",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "9\n1 2 3 4 5 6 7 8 9",
+        "output": "1\n2 3\n4 5 6\n7 8 9",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "coin-change",
+    "title": "Coin Change",
+    "description": "Given coins of different denominations and a total amount, compute the fewest number of coins that you need to make up that amount. Return -1 if it's not possible.",
+    "difficulty": "MEDIUM",
+    "constraints": ["1 <= coins.length <= 12", "0 <= amount <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Dynamic Programming"],
+    "companies": ["Amazon"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "3\n1 2 5\n11",
+        "output": "3",
+        "explanation": "11 = 5 + 5 + 1"
+      }
+    ],
+    "hints": ["Use DP bottom-up", "Consider unbounded knapsack formulation"],
+    "inputFormat": "First line k (number of coin types), second line k coins, third line amount",
+    "outputFormat": "Minimum number of coins or -1",
+    "testCases": [
+      {
+        "input": "3\n1 2 5\n11",
+        "output": "3",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "1\n2\n3",
+        "output": "-1",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "3\n2 5 10\n27",
+        "output": "4",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "2\n5 7\n1",
+        "output": "-1",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "3\n1 3 4\n6",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "3\n2 5 3\n7",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "4\n1 5 10 25\n100",
+        "output": "4",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "2\n9 6\n18",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "3\n7 3 2\n14",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "1\n1\n0",
+        "output": "0",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "word-break",
+    "title": "Word Break",
+    "description": "Given a non-empty string s and a dictionary wordDict, determine if s can be segmented into space-separated sequence of one or more dictionary words.",
+    "difficulty": "MEDIUM",
+    "constraints": ["1 <= s.length <= 300", "1 <= wordDict.length <= 1000"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Dynamic Programming", "Trie"],
+    "companies": ["Microsoft"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "leetcode\n2\nleet code",
+        "output": "true"
+      }
+    ],
+    "hints": [
+      "Use DP where dp[i] means s[:i] can be segmented",
+      "Optimize with max word length"
+    ],
+    "inputFormat": "First line s, second line k, third line k words space-separated",
+    "outputFormat": "true or false",
+    "testCases": [
+      {
+        "input": "leetcode\n2\nleet code",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "applepenapple\n2\napple pen",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "catsandog\n5\ncats dog sand and cat",
+        "output": "false",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "aaaaaaa\n2\na aa",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "cars\n2\ncar cat",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "pineapplepenapple\n3\napple pen pineapple",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "bb\n1\na",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "abcd\n4\na b c d",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "catsanddog\n5\ncat cats and sand dog",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "penpineapplepen\n3\npen pineapple apple",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "kth-largest-element-in-an-array",
+    "title": "Kth Largest Element in an Array",
+    "description": "Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.",
+    "difficulty": "MEDIUM",
+    "constraints": ["1 <= k <= nums.length <= 10^5"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Divide and Conquer", "Heap", "Selection"],
+    "companies": ["Google", "Uber"],
+    "examples": [
+      {
+        "input": "6\n3 2 1 5 6 4\n2",
+        "output": "5"
+      }
+    ],
+    "hints": ["Use quickselect or a min-heap of size k"],
+    "inputFormat": "First line n, second line n integers, third line k",
+    "outputFormat": "An integer representing kth largest",
+    "testCases": [
+      {
+        "input": "6\n3 2 1 5 6 4\n2",
+        "output": "5",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "1\n1\n1",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "5\n2 1 2 1 3\n3",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "4\n7 10 4 3\n1",
+        "output": "10",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "5\n-1 -2 -3 -4 -5\n3",
+        "output": "-3",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "6\n1 2 3 4 5 6\n6",
+        "output": "1",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "6\n5 5 5 5 5 5\n3",
+        "output": "5",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "7\n9 8 7 6 5 4 3\n4",
+        "output": "6",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "5\n100 90 80 70 60\n2",
+        "output": "90",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "3\n2 2 3\n2",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "search-in-rotated-sorted-array",
+    "title": "Search in Rotated Sorted Array",
+    "description": "Given an array that is rotated at some pivot and a target value, return its index or -1 if not found.",
+    "difficulty": "MEDIUM",
+    "constraints": ["1 <= nums.length <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Binary Search", "Array"],
+    "companies": ["Microsoft"],
+    "examples": [
+      {
+        "input": "7\n4 5 6 7 0 1 2\n0",
+        "output": "4"
+      }
+    ],
+    "hints": ["Use modified binary search", "Determine which half is sorted"],
+    "inputFormat": "First line n, second line n integers, third line target",
+    "outputFormat": "Index or -1",
+    "testCases": [
+      {
+        "input": "7\n4 5 6 7 0 1 2\n0",
+        "output": "4",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "1\n1\n0",
+        "output": "-1",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "5\n6 7 8 1 2\n6",
+        "output": "0",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "5\n6 7 1 2 3\n3",
+        "output": "4",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "4\n3 1 2 3\n1",
+        "output": "1",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "6\n2 3 4 5 6 1\n1",
+        "output": "5",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "6\n2 3 4 5 6 1\n4",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "3\n1 3 5\n5",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "4\n5 6 7 1\n7",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "5\n1 2 3 4 5\n3",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "product-of-array-except-self",
+    "title": "Product of Array Except Self",
+    "description": "Given an array nums, return an array answer such that answer[i] is the product of all the elements of nums except nums[i]. Solve without division and in O(n).",
+    "difficulty": "MEDIUM",
+    "constraints": ["2 <= nums.length <= 10^5", "-30 <= nums[i] <= 30"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Prefix Sum"],
+    "companies": ["Amazon"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "4\n1 2 3 4",
+        "output": "24 12 8 6"
+      }
+    ],
+    "hints": ["Compute prefix and suffix products", "Handle zeros specially"],
+    "inputFormat": "First line n, second line n integers",
+    "outputFormat": "n integers space-separated",
+    "testCases": [
+      {
+        "input": "4\n1 2 3 4",
+        "output": "24 12 8 6",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "3\n0 4 0",
+        "output": "0 0 0",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "5\n-1 1 -1 1 -1",
+        "output": "1 -1 1 -1 1",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "2\n5 6",
+        "output": "6 5",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "3\n2 3 4",
+        "output": "12 8 6",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "4\n1 0 3 0",
+        "output": "0 0 0 0",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "6\n1 2 3 0 4 5",
+        "output": "0 0 0 60 0 0",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "3\n-2 -3 4",
+        "output": "-12 8 6",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "1\n1",
+        "output": "1",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "3\n2 2 2",
+        "output": "4 4 4",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  }
+]

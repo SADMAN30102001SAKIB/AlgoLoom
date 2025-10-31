@@ -1,0 +1,1621 @@
+[
+  {
+    "slug": "two-sum",
+    "title": "Two Sum",
+    "description": "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`. Assume exactly one solution and you may not use the same element twice.",
+    "difficulty": "EASY",
+    "constraints": [
+      "2 <= nums.length <= 10^4",
+      "-10^9 <= nums[i] <= 10^9",
+      "-10^9 <= target <= 10^9"
+    ],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Hash Table"],
+    "companies": ["Google", "Amazon"],
+    "examples": [
+      {
+        "input": "4\n2 7 11 15\n9",
+        "output": "0 1",
+        "explanation": "nums[0] + nums[1] == 9"
+      }
+    ],
+    "hints": [
+      "Use a hash map to find complements in one pass",
+      "Store number -> index as you scan"
+    ],
+    "inputFormat": "n\nnums[0] nums[1] ... nums[n-1]\ntarget",
+    "outputFormat": "Two space-separated indices",
+    "testCases": [
+      {
+        "input": "4\n2 7 11 15\n9",
+        "output": "0 1",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "3\n3 2 4\n6",
+        "output": "1 2",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "2\n3 3\n6",
+        "output": "0 1",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "4\n1 5 3 7\n8",
+        "output": "0 3",
+        "expectedOutputs": ["0 3", "1 2"],
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "5\n-1 -2 -3 -4 -5\n-8",
+        "output": "2 4",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "4\n0 4 3 0\n0",
+        "output": "0 3",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "5\n10 20 30 40 50\n90",
+        "output": "3 4",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "3\n5 -4 9\n1",
+        "output": "0 1",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "4\n2 2 4 6\n4",
+        "output": "0 1",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "3\n-2 11 9\n7",
+        "output": "0 2",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "reverse-linked-list-array",
+    "title": "Reverse Linked List (Array Representation)",
+    "description": "Given the head of a singly linked list represented as an array, reverse the list and return the reversed array.",
+    "difficulty": "EASY",
+    "constraints": ["0 <= n <= 5000", "-5000 <= val <= 5000"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Linked List", "Arrays"],
+    "companies": ["Meta", "Amazon"],
+    "examples": [
+      {
+        "input": "5\n1 2 3 4 5",
+        "output": "5 4 3 2 1"
+      }
+    ],
+    "hints": [
+      "Reverse the array in-place or create a new array by scanning from end"
+    ],
+    "inputFormat": "n\nv1 v2 ... vn",
+    "outputFormat": "v_n ... v_1",
+    "testCases": [
+      {
+        "input": "5\n1 2 3 4 5",
+        "output": "5 4 3 2 1",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "2\n1 2",
+        "output": "2 1",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "0\n",
+        "output": "",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "1\n42",
+        "output": "42",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "4\n10 20 30 40",
+        "output": "40 30 20 10",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "3\n-1 -2 -3",
+        "output": "-3 -2 -1",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "6\n7 7 7 7 7 7",
+        "output": "7 7 7 7 7 7",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "5\n100 200 300 400 500",
+        "output": "500 400 300 200 100",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "3\n0 0 0",
+        "output": "0 0 0",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "4\n1 -1 1 -1",
+        "output": "-1 1 -1 1",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "palindrome-number",
+    "title": "Palindrome Number",
+    "description": "Determine whether an integer is a palindrome. An integer is palindrome when it reads the same backward as forward.",
+    "difficulty": "EASY",
+    "constraints": ["-2^31 <= x <= 2^31 - 1"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Math"],
+    "companies": ["Google"],
+    "examples": [
+      {
+        "input": "121",
+        "output": "true"
+      },
+      {
+        "input": "-121",
+        "output": "false"
+      }
+    ],
+    "hints": [
+      "Negative numbers are not palindromes by convention",
+      "Reverse half of the number to avoid overflow"
+    ],
+    "inputFormat": "An integer x",
+    "outputFormat": "true or false",
+    "testCases": [
+      {
+        "input": "121",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "-121",
+        "output": "false",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "10",
+        "output": "false",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "0",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "1221",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "12321",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "1001",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "-101",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "2147447412",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "2147483647",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "remove-duplicates-sorted-array",
+    "title": "Remove Duplicates from Sorted Array",
+    "description": "Given a sorted array, remove the duplicates in-place such that each element appears only once and return the new length.",
+    "difficulty": "EASY",
+    "constraints": ["0 <= nums.length <= 10^4", "-10^4 <= nums[i] <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Two Pointers"],
+    "companies": ["Facebook", "Apple"],
+    "examples": [
+      {
+        "input": "6\n1 1 2 2 3 3",
+        "output": "3\n1 2 3"
+      }
+    ],
+    "hints": ["Use two pointers to overwrite duplicates in place"],
+    "inputFormat": "n\nnums[0] nums[1] ...",
+    "outputFormat": "k\nfirst k elements",
+    "testCases": [
+      {
+        "input": "6\n1 1 2 2 3 3",
+        "output": "3\n1 2 3",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "1\n10",
+        "output": "1\n10",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "0\n",
+        "output": "0\n",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "5\n1 2 2 2 3",
+        "output": "3\n1 2 3",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "4\n2 2 2 2",
+        "output": "1\n2",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "7\n-1 -1 0 0 1 1 2",
+        "output": "4\n-1 0 1 2",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "3\n1 1 1",
+        "output": "1\n1",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "6\n1 2 3 4 5 6",
+        "output": "6\n1 2 3 4 5 6",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "5\n0 0 0 1 1",
+        "output": "2\n0 1",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "8\n1 1 2 2 2 3 3 4",
+        "output": "4\n1 2 3 4",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "valid-parentheses",
+    "title": "Valid Parentheses",
+    "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. An input string is valid if: Open brackets must be closed by the same type of brackets, and open brackets must be closed in the correct order.",
+    "difficulty": "EASY",
+    "constraints": ["1 <= s.length <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Stack", "String"],
+    "companies": ["Amazon", "Google"],
+    "examples": [
+      {
+        "input": "()",
+        "output": "true"
+      },
+      {
+        "input": "()[]{}",
+        "output": "true"
+      },
+      {
+        "input": "(]",
+        "output": "false"
+      }
+    ],
+    "hints": [
+      "Use a stack to track opening brackets",
+      "When you see a closing bracket, check if it matches the top of the stack"
+    ],
+    "inputFormat": "A string s",
+    "outputFormat": "true or false",
+    "testCases": [
+      {
+        "input": "()",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "()[]{}",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "(]",
+        "output": "false",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "{[]}",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 3
+      },
+      {
+        "input": "([)]",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "((",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "))",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "{[()]}",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "((()))",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "(((",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 9
+      },
+      {
+        "input": "()[]{}()",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 10
+      }
+    ]
+  },
+  {
+    "slug": "merge-two-sorted-lists",
+    "title": "Merge Two Sorted Lists",
+    "description": "Merge two sorted linked lists (represented as arrays) and return it as a new sorted array.",
+    "difficulty": "EASY",
+    "constraints": [
+      "0 <= list1.length, list2.length <= 50",
+      "-100 <= val <= 100"
+    ],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Linked List", "Recursion"],
+    "companies": ["Microsoft", "Amazon"],
+    "examples": [
+      {
+        "input": "3\n1 2 4\n3\n1 3 4",
+        "output": "1 1 2 3 4 4"
+      }
+    ],
+    "hints": [
+      "Use two pointers to traverse both arrays",
+      "Compare elements and pick the smaller one"
+    ],
+    "inputFormat": "First line n1, second line n1 integers, third line n2, fourth line n2 integers",
+    "outputFormat": "Space-separated merged sorted array",
+    "testCases": [
+      {
+        "input": "3\n1 2 4\n3\n1 3 4",
+        "output": "1 1 2 3 4 4",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "0\n\n0\n",
+        "output": "",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "0\n\n1\n0",
+        "output": "0",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "2\n1 3\n2\n2 4",
+        "output": "1 2 3 4",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "1\n5\n3\n1 2 4",
+        "output": "1 2 4 5",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "3\n-1 0 1\n2\n-2 2",
+        "output": "-2 -1 0 1 2",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "4\n1 1 1 1\n4\n2 2 2 2",
+        "output": "1 1 1 1 2 2 2 2",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "1\n10\n1\n5",
+        "output": "5 10",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "5\n1 2 3 4 5\n5\n6 7 8 9 10",
+        "output": "1 2 3 4 5 6 7 8 9 10",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "3\n1 3 5\n3\n2 4 6",
+        "output": "1 2 3 4 5 6",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "best-time-to-buy-and-sell-stock",
+    "title": "Best Time to Buy and Sell Stock",
+    "description": "You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.",
+    "difficulty": "EASY",
+    "constraints": ["1 <= prices.length <= 10^5", "0 <= prices[i] <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Dynamic Programming"],
+    "companies": ["Facebook", "Amazon"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "6\n7 1 5 3 6 4",
+        "output": "5",
+        "explanation": "Buy on day 2 (price=1) and sell on day 5 (price=6), profit = 6-1 = 5"
+      }
+    ],
+    "hints": [
+      "Track the minimum price seen so far",
+      "Calculate profit at each step and track maximum"
+    ],
+    "inputFormat": "First line n, second line n integers",
+    "outputFormat": "Maximum profit as integer",
+    "testCases": [
+      {
+        "input": "6\n7 1 5 3 6 4",
+        "output": "5",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "5\n7 6 4 3 1",
+        "output": "0",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "2\n1 2",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "3\n2 4 1",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "1\n5",
+        "output": "0",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "4\n3 2 6 5",
+        "output": "4",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "5\n1 2 3 4 5",
+        "output": "4",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "7\n2 1 2 0 1 3 2",
+        "output": "3",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "8\n10 9 8 7 6 5 4 3",
+        "output": "0",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "6\n5 10 3 6 2 8",
+        "output": "6",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "valid-anagram",
+    "title": "Valid Anagram",
+    "description": "Given two strings s and t, return true if t is an anagram of s, and false otherwise. An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
+    "difficulty": "EASY",
+    "constraints": ["1 <= s.length, t.length <= 5 * 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Hash Table", "String", "Sorting"],
+    "companies": ["Google"],
+    "examples": [
+      {
+        "input": "anagram\nnagaram",
+        "output": "true"
+      },
+      {
+        "input": "rat\ncar",
+        "output": "false"
+      }
+    ],
+    "hints": [
+      "Count character frequencies",
+      "Use a hash map or sort both strings"
+    ],
+    "inputFormat": "Two lines: string s then string t",
+    "outputFormat": "true or false",
+    "testCases": [
+      {
+        "input": "anagram\nnagaram",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "rat\ncar",
+        "output": "false",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "a\na",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "ab\nba",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "abc\ncba",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "abc\nabc",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "listen\nsilent",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "hello\nworld",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "aabbcc\nccbbaa",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "aaaa\naaa",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "binary-search",
+    "title": "Binary Search",
+    "description": "Given a sorted array of integers nums and an integer target, return the index of target in nums. If target does not exist in nums, return -1. You must write an algorithm with O(log n) runtime complexity.",
+    "difficulty": "EASY",
+    "constraints": [
+      "1 <= nums.length <= 10^4",
+      "-10^4 < nums[i], target < 10^4",
+      "All integers in nums are unique"
+    ],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Binary Search", "Array"],
+    "companies": ["Google", "Facebook"],
+    "examples": [
+      {
+        "input": "5\n-1 0 3 5 9\n9",
+        "output": "4"
+      },
+      {
+        "input": "5\n-1 0 3 5 9\n2",
+        "output": "-1"
+      }
+    ],
+    "hints": [
+      "Use two pointers: left and right",
+      "Compare middle element with target and adjust search space"
+    ],
+    "inputFormat": "First line n, second line n sorted integers, third line target",
+    "outputFormat": "Index or -1",
+    "testCases": [
+      {
+        "input": "5\n-1 0 3 5 9\n9",
+        "output": "4",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "5\n-1 0 3 5 9\n2",
+        "output": "-1",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "1\n5\n5",
+        "output": "0",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "6\n1 2 3 4 5 6\n1",
+        "output": "0",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "6\n1 2 3 4 5 6\n6",
+        "output": "5",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "7\n1 3 5 7 9 11 13\n7",
+        "output": "3",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "4\n-10 -5 0 5\n0",
+        "output": "2",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "8\n1 2 3 4 5 6 7 8\n10",
+        "output": "-1",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "3\n10 20 30\n15",
+        "output": "-1",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "9\n1 3 5 7 9 11 13 15 17\n13",
+        "output": "6",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "climbing-stairs",
+    "title": "Climbing Stairs",
+    "description": "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
+    "difficulty": "EASY",
+    "constraints": ["1 <= n <= 45"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Dynamic Programming", "Math"],
+    "companies": ["Amazon"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "2",
+        "output": "2",
+        "explanation": "1+1 or 2"
+      },
+      {
+        "input": "3",
+        "output": "3",
+        "explanation": "1+1+1 or 1+2 or 2+1"
+      }
+    ],
+    "hints": [
+      "This is a Fibonacci sequence",
+      "Use DP: ways[i] = ways[i-1] + ways[i-2]"
+    ],
+    "inputFormat": "Single integer n",
+    "outputFormat": "Number of ways",
+    "testCases": [
+      {
+        "input": "2",
+        "output": "2",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "3",
+        "output": "3",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "1",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "4",
+        "output": "5",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "5",
+        "output": "8",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "6",
+        "output": "13",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "10",
+        "output": "89",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "15",
+        "output": "987",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "20",
+        "output": "10946",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "25",
+        "output": "121393",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "maximum-subarray",
+    "title": "Maximum Subarray",
+    "description": "Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.",
+    "difficulty": "EASY",
+    "constraints": ["1 <= nums.length <= 10^5", "-10^4 <= nums[i] <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Dynamic Programming", "Divide and Conquer"],
+    "companies": ["Amazon", "Microsoft"],
+    "examples": [
+      {
+        "input": "9\n-2 1 -3 4 -1 2 1 -5 4",
+        "output": "6",
+        "explanation": "[4,-1,2,1] has the largest sum = 6"
+      }
+    ],
+    "hints": [
+      "Use Kadane's algorithm",
+      "Track current sum and reset if it goes negative"
+    ],
+    "inputFormat": "First line n, second line n integers",
+    "outputFormat": "Maximum sum",
+    "testCases": [
+      {
+        "input": "9\n-2 1 -3 4 -1 2 1 -5 4",
+        "output": "6",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "1\n1",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "2\n5 4",
+        "output": "9",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "3\n-1 -2 -3",
+        "output": "-1",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "5\n1 2 3 4 5",
+        "output": "15",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "6\n-5 -2 -8 -1 -4 -3",
+        "output": "-1",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "4\n-2 -3 4 -1",
+        "output": "4",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "7\n1 -1 1 -1 1 -1 1",
+        "output": "1",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "5\n-1 0 -2 3 -1",
+        "output": "3",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "8\n5 -3 5 -3 5 -3 5 -3",
+        "output": "10",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "plus-one",
+    "title": "Plus One",
+    "description": "You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's. Increment the large integer by one and return the resulting array of digits.",
+    "difficulty": "EASY",
+    "constraints": ["1 <= digits.length <= 100", "0 <= digits[i] <= 9"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Math"],
+    "companies": ["Google"],
+    "examples": [
+      {
+        "input": "3\n1 2 3",
+        "output": "1 2 4"
+      },
+      {
+        "input": "1\n9",
+        "output": "1 0"
+      }
+    ],
+    "hints": [
+      "Handle carry from right to left",
+      "If all digits are 9, you need to add a leading 1"
+    ],
+    "inputFormat": "First line n, second line n digits",
+    "outputFormat": "Space-separated digits of result",
+    "testCases": [
+      {
+        "input": "3\n1 2 3",
+        "output": "1 2 4",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "1\n9",
+        "output": "1 0",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "2\n9 9",
+        "output": "1 0 0",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "1\n0",
+        "output": "1",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "4\n4 3 2 1",
+        "output": "4 3 2 2",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "3\n1 9 9",
+        "output": "2 0 0",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "5\n9 8 7 6 5",
+        "output": "9 8 7 6 6",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "4\n9 9 9 9",
+        "output": "1 0 0 0 0",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "6\n1 0 0 0 0 0",
+        "output": "1 0 0 0 0 1",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "3\n8 9 9",
+        "output": "9 0 0",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "single-number",
+    "title": "Single Number",
+    "description": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one. You must implement a solution with a linear runtime complexity and use only constant extra space.",
+    "difficulty": "EASY",
+    "constraints": [
+      "1 <= nums.length <= 3 * 10^4",
+      "-3 * 10^4 <= nums[i] <= 3 * 10^4"
+    ],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Bit Manipulation"],
+    "companies": ["Amazon"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "3\n2 2 1",
+        "output": "1"
+      },
+      {
+        "input": "5\n4 1 2 1 2",
+        "output": "4"
+      }
+    ],
+    "hints": ["Use XOR operation", "a XOR a = 0 and a XOR 0 = a"],
+    "inputFormat": "First line n, second line n integers",
+    "outputFormat": "The unique number",
+    "testCases": [
+      {
+        "input": "3\n2 2 1",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "5\n4 1 2 1 2",
+        "output": "4",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "1\n1",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "7\n1 3 1 -1 3 -1 7",
+        "output": "7",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "5\n0 1 0 1 99",
+        "output": "99",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "9\n5 5 3 3 2 2 1 1 4",
+        "output": "4",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "3\n-1 -1 0",
+        "output": "0",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "7\n10 20 10 30 20 30 40",
+        "output": "40",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "11\n1 2 3 4 5 1 2 3 4 5 6",
+        "output": "6",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "5\n100 200 100 300 200",
+        "output": "300",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "intersection-of-two-arrays",
+    "title": "Intersection of Two Arrays II",
+    "description": "Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays.",
+    "difficulty": "EASY",
+    "constraints": [
+      "1 <= nums1.length, nums2.length <= 1000",
+      "0 <= nums1[i], nums2[i] <= 1000"
+    ],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Hash Table", "Two Pointers", "Sorting"],
+    "companies": ["Facebook"],
+    "examples": [
+      {
+        "input": "3\n1 2 2\n2\n2 2",
+        "output": "2 2"
+      },
+      {
+        "input": "4\n4 9 5 9\n5\n9 4 9 8 4",
+        "output": "4 9 9",
+        "expectedOutputs": ["4 9 9", "9 4 9", "9 9 4"]
+      }
+    ],
+    "hints": [
+      "Use a hash map to count frequencies",
+      "Output can be in any order"
+    ],
+    "inputFormat": "First line n1, second line n1 integers, third line n2, fourth line n2 integers",
+    "outputFormat": "Space-separated integers (order doesn't matter)",
+    "testCases": [
+      {
+        "input": "3\n1 2 2\n2\n2 2",
+        "output": "2 2",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "4\n4 9 5 9\n5\n9 4 9 8 4",
+        "output": "4 9 9",
+        "expectedOutputs": ["4 9 9", "9 4 9", "9 9 4"],
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "2\n1 2\n2\n2 1",
+        "output": "1 2",
+        "expectedOutputs": ["1 2", "2 1"],
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "3\n3 1 2\n3\n1 1 1",
+        "output": "1",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "5\n1 2 3 4 5\n3\n3 4 5",
+        "output": "3 4 5",
+        "expectedOutputs": [
+          "3 4 5",
+          "3 5 4",
+          "4 3 5",
+          "4 5 3",
+          "5 3 4",
+          "5 4 3"
+        ],
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "0\n\n2\n1 2",
+        "output": "",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "4\n1 1 1 1\n2\n1 1",
+        "output": "1 1",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "3\n5 5 5\n3\n5 5 5",
+        "output": "5 5 5",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "5\n2 3 3 4 5\n4\n1 3 3 5",
+        "output": "3 3 5",
+        "expectedOutputs": ["3 3 5", "3 5 3", "5 3 3"],
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "2\n10 20\n2\n30 40",
+        "output": "",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "move-zeroes",
+    "title": "Move Zeroes",
+    "description": "Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements. Note that you must do this in-place without making a copy of the array.",
+    "difficulty": "EASY",
+    "constraints": ["1 <= nums.length <= 10^4", "-2^31 <= nums[i] <= 2^31 - 1"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Array", "Two Pointers"],
+    "companies": ["Facebook"],
+    "isPremium": true,
+    "examples": [
+      {
+        "input": "5\n0 1 0 3 12",
+        "output": "1 3 12 0 0"
+      }
+    ],
+    "hints": [
+      "Use two pointers: one to track non-zero position",
+      "Swap when you encounter a non-zero element"
+    ],
+    "inputFormat": "First line n, second line n integers",
+    "outputFormat": "Space-separated integers with zeros moved to end",
+    "testCases": [
+      {
+        "input": "5\n0 1 0 3 12",
+        "output": "1 3 12 0 0",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "1\n0",
+        "output": "0",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "1 2 3",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "6\n0 0 1 2 3 0",
+        "output": "1 2 3 0 0 0",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "4\n0 0 0 1",
+        "output": "1 0 0 0",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "5\n1 0 2 0 3",
+        "output": "1 2 3 0 0",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "7\n4 2 4 0 0 3 0",
+        "output": "4 2 4 3 0 0 0",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "3\n0 0 0",
+        "output": "0 0 0",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "6\n1 2 3 4 5 6",
+        "output": "1 2 3 4 5 6",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "8\n-1 0 -2 0 -3 0 -4 0",
+        "output": "-1 -2 -3 -4 0 0 0 0",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "fizz-buzz",
+    "title": "Fizz Buzz",
+    "description": "Given an integer n, return a string array answer (1-indexed) where: answer[i] == \"FizzBuzz\" if i is divisible by 3 and 5, answer[i] == \"Fizz\" if i is divisible by 3, answer[i] == \"Buzz\" if i is divisible by 5, answer[i] == i (as a string) if none of the above conditions are true.",
+    "difficulty": "EASY",
+    "constraints": ["1 <= n <= 10^4"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Math", "String"],
+    "companies": ["Google"],
+    "examples": [
+      {
+        "input": "5",
+        "output": "1\n2\nFizz\n4\nBuzz"
+      }
+    ],
+    "hints": [
+      "Check divisibility by 15 first (both 3 and 5)",
+      "Then check 3, then 5"
+    ],
+    "inputFormat": "Single integer n",
+    "outputFormat": "n lines with the answer for each number from 1 to n",
+    "testCases": [
+      {
+        "input": "5",
+        "output": "1\n2\nFizz\n4\nBuzz",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "15",
+        "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "1",
+        "output": "1",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "3",
+        "output": "1\n2\nFizz",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "10",
+        "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "20",
+        "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz\n16\n17\nFizz\n19\nBuzz",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "30",
+        "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz\n16\n17\nFizz\n19\nBuzz\nFizz\n22\n23\nFizz\nBuzz\n26\nFizz\n28\n29\nFizzBuzz",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "6",
+        "output": "1\n2\nFizz\n4\nBuzz\nFizz",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "7",
+        "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "12",
+        "output": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "sqrt-x",
+    "title": "Sqrt(x)",
+    "description": "Given a non-negative integer x, compute and return the square root of x. Since the return type is an integer, the decimal digits are truncated, and only the integer part of the result is returned.",
+    "difficulty": "EASY",
+    "constraints": ["0 <= x <= 2^31 - 1"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Binary Search", "Math"],
+    "companies": ["Facebook"],
+    "examples": [
+      {
+        "input": "4",
+        "output": "2"
+      },
+      {
+        "input": "8",
+        "output": "2",
+        "explanation": "The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned"
+      }
+    ],
+    "hints": [
+      "Use binary search to find the largest integer whose square is <= x",
+      "Handle edge cases: 0 and 1"
+    ],
+    "inputFormat": "Single integer x",
+    "outputFormat": "Integer square root",
+    "testCases": [
+      {
+        "input": "4",
+        "output": "2",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "8",
+        "output": "2",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "0",
+        "output": "0",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "1",
+        "output": "1",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "16",
+        "output": "4",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "25",
+        "output": "5",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "26",
+        "output": "5",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "100",
+        "output": "10",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "2147395599",
+        "output": "46339",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "1000000",
+        "output": "1000",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  },
+  {
+    "slug": "power-of-two",
+    "title": "Power of Two",
+    "description": "Given an integer n, return true if it is a power of two. Otherwise, return false. An integer n is a power of two, if there exists an integer x such that n == 2^x.",
+    "difficulty": "EASY",
+    "constraints": ["-2^31 <= n <= 2^31 - 1"],
+    "timeLimit": 2000,
+    "memoryLimit": 256000,
+    "tags": ["Math", "Bit Manipulation"],
+    "companies": ["Google"],
+    "examples": [
+      {
+        "input": "1",
+        "output": "true",
+        "explanation": "2^0 = 1"
+      },
+      {
+        "input": "16",
+        "output": "true",
+        "explanation": "2^4 = 16"
+      },
+      {
+        "input": "3",
+        "output": "false"
+      }
+    ],
+    "hints": [
+      "A power of two in binary has exactly one '1' bit",
+      "Use n & (n-1) == 0 and n > 0"
+    ],
+    "inputFormat": "Single integer n",
+    "outputFormat": "true or false",
+    "testCases": [
+      {
+        "input": "1",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 0
+      },
+      {
+        "input": "16",
+        "output": "true",
+        "isHidden": false,
+        "orderIndex": 1
+      },
+      {
+        "input": "3",
+        "output": "false",
+        "isHidden": false,
+        "orderIndex": 2
+      },
+      {
+        "input": "2",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 3
+      },
+      {
+        "input": "4",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 4
+      },
+      {
+        "input": "5",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 5
+      },
+      {
+        "input": "0",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 6
+      },
+      {
+        "input": "-16",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 7
+      },
+      {
+        "input": "1024",
+        "output": "true",
+        "isHidden": true,
+        "orderIndex": 8
+      },
+      {
+        "input": "1000",
+        "output": "false",
+        "isHidden": true,
+        "orderIndex": 9
+      }
+    ]
+  }
+]

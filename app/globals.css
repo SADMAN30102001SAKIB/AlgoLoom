@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 217 19% 27%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217 19% 27%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 268 83% 65%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 19% 27%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 217 19% 27%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 268 83% 65%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      "Inter Variable",
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
+  code {
+    font-family: "Fira Code", "JetBrains Mono", "Consolas", monospace;
+  }
+}
+
+/* Custom Scrollbar Styling */
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(15 23 42); /* slate-900 */
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(51 65 85); /* slate-700 */
+  border-radius: 6px;
+  border: 2px solid rgb(15 23 42); /* slate-900 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(71 85 105); /* slate-600 */
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: rgb(100 116 139); /* slate-500 */
+}
+
+::-webkit-scrollbar-corner {
+  background: rgb(15 23 42); /* slate-900 */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(51 65 85) rgb(15 23 42); /* thumb and track */
+}
+
+/* Exclude Monaco editor from custom scrollbar */
+.monaco-editor ::-webkit-scrollbar,
+.monaco-editor ::-webkit-scrollbar-track,
+.monaco-editor ::-webkit-scrollbar-thumb {
+  /* Let Monaco handle its own scrollbars */
+  all: revert;
+}
