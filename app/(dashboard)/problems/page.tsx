@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -17,7 +17,7 @@ interface Problem {
   hintsUsed?: boolean;
 }
 
-export default function ProblemsPage() {
+function ProblemsPageContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -459,5 +459,18 @@ export default function ProblemsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ProblemsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+          <div className="text-white text-xl">Loading...</div>
+        </div>
+      }>
+      <ProblemsPageContent />
+    </Suspense>
   );
 }

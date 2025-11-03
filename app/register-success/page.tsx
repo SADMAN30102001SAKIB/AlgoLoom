@@ -4,8 +4,9 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Mail, ArrowRight } from "lucide-react";
+import { Suspense } from "react";
 
-export default function RegisterSuccessPage() {
+function RegisterSuccessContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
 
@@ -59,5 +60,18 @@ export default function RegisterSuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RegisterSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      }>
+      <RegisterSuccessContent />
+    </Suspense>
   );
 }
