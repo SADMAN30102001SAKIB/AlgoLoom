@@ -68,11 +68,11 @@ function LoginForm() {
         // Get fresh session to check user role
         const newSession = await getSession();
 
-        // Redirect based on role
+        // Redirect based on role using router.push for smooth navigation
         if (newSession?.user?.role === "ADMIN") {
-          window.location.href = "/admin";
+          router.push("/admin");
         } else {
-          window.location.href = callbackUrl || "/problems";
+          router.push(callbackUrl || "/problems");
         }
       }
     } catch (error) {
