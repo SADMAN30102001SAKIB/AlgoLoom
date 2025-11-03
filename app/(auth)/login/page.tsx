@@ -23,9 +23,27 @@ function LoginForm() {
   // Redirect if already logged in
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
-      router.push(callbackUrl);
+      router.replace(callbackUrl);
     }
   }, [status, session, callbackUrl, router]);
+
+  // Show loading while checking authentication
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
+
+  // Don't show form if authenticated (redirect is happening)
+  if (status === "authenticated") {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-muted-foreground">Redirecting...</div>
+      </div>
+    );
+  }
 
   const handleCredentialsLogin = async () => {
     setError("");
