@@ -117,6 +117,8 @@ export const authConfig: NextAuthConfig = {
             // Update last login info
             name: user.name,
             image: user.image,
+            // Ensure OAuth users are always verified
+            emailVerified: new Date(),
           },
           create: {
             email: user.email!,
@@ -138,8 +140,8 @@ export const authConfig: NextAuthConfig = {
         token.username = user.username;
         token.emailVerified = user.emailVerified;
       }
-      // For OAuth first-time login, fetch user from database (only once)
-      else if (trigger === "signIn" && !token.id && token.email) {
+      // For OAuth or any signIn without user.id, fetch user from database
+      else if (trigger === "signIn" && token.email) {
         const dbUser = await prisma.user.findUnique({
           where: { email: token.email as string },
         });
