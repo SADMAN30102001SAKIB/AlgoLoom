@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 interface Problem {
   id: string;
@@ -53,11 +54,11 @@ export default function ProblemsListClient({
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
-                <a
+                <Link
                   href={`/admin/problems/${problem.slug}`}
                   className="text-xl font-semibold text-white hover:text-blue-400">
                   {problem.title}
-                </a>
+                </Link>
                 <span
                   className={`text-xs px-2 py-1 rounded ${
                     problem.difficulty === "EASY"
@@ -106,17 +107,17 @@ export default function ProblemsListClient({
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <a
-                href={`/problems/${problem.slug}`}
+              <Link
+                href={`/problems/${problem.slug}?from=admin`}
                 target="_blank"
                 className="px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-600 rounded hover:border-slate-500 transition">
                 View
-              </a>
-              <a
+              </Link>
+              <Link
                 href={`/admin/problems/${problem.slug}`}
                 className="px-3 py-1.5 text-sm text-blue-400 hover:text-blue-300 border border-blue-500/30 rounded hover:border-blue-500/50 transition">
                 Edit
-              </a>
+              </Link>
               <button
                 onClick={() => handleDelete(problem.id, problem.title)}
                 disabled={deleting === problem.id}
@@ -131,11 +132,11 @@ export default function ProblemsListClient({
       {problems.length === 0 && (
         <div className="text-center py-12 text-slate-400">
           <p className="text-lg mb-2">No problems yet</p>
-          <a
+          <Link
             href="/admin/problems/new"
             className="text-blue-400 hover:text-blue-300">
             Create your first problem
-          </a>
+          </Link>
         </div>
       )}
     </div>

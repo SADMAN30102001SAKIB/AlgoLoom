@@ -76,17 +76,11 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Protected routes - require authentication
-  const protectedPaths = ["/problems", "/profile", "/leaderboard"];
+  // Admin routes - require authentication and ADMIN role
   const adminPaths = ["/admin"];
-
-  const isProtectedPath = protectedPaths.some(path =>
-    pathname.startsWith(path),
-  );
   const isAdminPath = adminPaths.some(path => pathname.startsWith(path));
 
-  // Check authentication once for both protected and admin routes
-  if (isProtectedPath || isAdminPath) {
+  if (isAdminPath) {
     const session = await auth();
 
     if (!session?.user) {
@@ -95,8 +89,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(signInUrl);
     }
 
-    // Additional check for admin-only routes
-    if (isAdminPath && session.user.role !== "ADMIN") {
+    if (session.user.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

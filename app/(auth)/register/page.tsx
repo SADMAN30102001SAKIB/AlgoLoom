@@ -13,7 +13,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -70,8 +70,8 @@ export default function RegisterPage() {
       return;
     }
 
-    if (formData.username.length < 3) {
-      setError("Username must be at least 3 characters");
+    if (formData.name.trim().length < 2) {
+      setError("Name must be at least 2 characters");
       return;
     }
 
@@ -82,7 +82,7 @@ export default function RegisterPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: formData.username,
+          name: formData.name,
           email: formData.email,
           password: formData.password,
         }),
@@ -96,21 +96,14 @@ export default function RegisterPage() {
         return;
       }
 
-      // Auto sign in after registration
-      const result = await signIn("credentials", {
-        email: formData.email,
-        password: formData.password,
-        redirect: false,
-      });
+      // Show success message - user must verify email before signing in
+      setError(""); // Clear any errors
+      setLoading(false);
 
-      if (result?.error) {
-        setError(
-          "Registration successful but login failed. Please try logging in manually.",
-        );
-        setTimeout(() => router.push("/login"), 2000);
-      } else {
-        router.push("/problems");
-      }
+      // Redirect to a success page or show success message
+      router.push(
+        `/register-success?email=${encodeURIComponent(formData.email)}`,
+      );
     } catch {
       setError("An error occurred. Please try again.");
       setLoading(false);
@@ -145,13 +138,13 @@ export default function RegisterPage() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="name">Name</Label>
             <Input
-              id="username"
-              name="username"
+              id="name"
+              name="name"
               type="text"
-              placeholder="Enter your username"
-              value={formData.username}
+              placeholder="Enter your full name"
+              value={formData.name}
               onChange={handleChange}
               required
             />

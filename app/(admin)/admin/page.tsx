@@ -77,11 +77,11 @@ export default async function AdminDashboard({
             <h2 className="text-xl font-semibold text-white">
               Recent Problems
             </h2>
-            <a
+            <Link
               href="/admin/problems/new"
               className="text-sm text-blue-400 hover:text-blue-300">
               + Add New
-            </a>
+            </Link>
           </div>
           <div className="space-y-3">
             {recentProblems.map(problem => (
@@ -89,11 +89,11 @@ export default async function AdminDashboard({
                 key={problem.id}
                 className="flex items-center justify-between p-3 bg-slate-900/50 rounded border border-slate-700">
                 <div>
-                  <a
+                  <Link
                     href={`/admin/problems/${problem.slug}`}
                     className="text-white hover:text-blue-400 font-medium">
                     {problem.title}
-                  </a>
+                  </Link>
                   <div className="flex items-center gap-2 mt-1">
                     <span
                       className={`text-xs px-2 py-0.5 rounded ${
@@ -137,11 +137,11 @@ export default async function AdminDashboard({
                   <div className="flex items-center gap-2">
                     <span className="text-slate-300">{sub.user.username}</span>
                     <span className="text-slate-500">→</span>
-                    <a
-                      href={`/submissions/${sub.id}`}
+                    <Link
+                      href={`/submissions/${sub.id}?from=admin`}
                       className="text-blue-400 hover:text-blue-300">
                       {sub.problem.title}
-                    </a>
+                    </Link>
                   </div>
                   <div className="flex items-center gap-2 mt-1">
                     <span
@@ -253,11 +253,11 @@ function StatCard({
 
   if (href) {
     return (
-      <a
+      <Link
         href={href}
         className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 hover:border-blue-500/50 transition">
         {content}
-      </a>
+      </Link>
     );
   }
 

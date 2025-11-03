@@ -47,6 +47,7 @@ export const authConfig: NextAuthConfig = {
           id: user.id,
           email: user.email,
           name: user.name,
+          username: user.username,
           image: user.image,
           role: user.role,
         };
@@ -133,6 +134,7 @@ export const authConfig: NextAuthConfig = {
       if (user?.id) {
         token.id = user.id;
         token.role = user.role;
+        token.username = user.username;
       }
       // For OAuth first-time login, fetch user from database (only once)
       else if (trigger === "signIn" && !token.id && token.email) {
@@ -142,6 +144,7 @@ export const authConfig: NextAuthConfig = {
         if (dbUser) {
           token.id = dbUser.id;
           token.role = dbUser.role;
+          token.username = dbUser.username;
         }
       }
       return token;
@@ -150,6 +153,7 @@ export const authConfig: NextAuthConfig = {
       if (session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.username = token.username;
       }
       return session;
     },
@@ -158,7 +162,7 @@ export const authConfig: NextAuthConfig = {
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allow same-origin absolute URLs
       if (new URL(url).origin === baseUrl) return url;
-      // Default to problems page for successful OAuth logins
+      // Default redirect will be handled by client-side based on role
       return `${baseUrl}/problems`;
     },
   },

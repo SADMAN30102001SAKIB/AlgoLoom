@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function AdminLayout({
   children,
@@ -22,26 +23,26 @@ export default async function AdminLayout({
                 Admin Panel
               </h1>
               <div className="flex space-x-4">
-                <a
+                <Link
                   href="/admin"
                   className="text-slate-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                   Dashboard
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/admin/problems"
                   className="text-slate-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                   Problems
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/admin/users"
                   className="text-slate-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                   Users
-                </a>
+                </Link>
               </div>
             </div>
-            <a href="/" className="text-slate-400 hover:text-white text-sm">
+            <Link href="/" className="text-slate-400 hover:text-white text-sm">
               ← Back to Site
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

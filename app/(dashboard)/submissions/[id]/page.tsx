@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface TestResult {
   testCaseId: string;
@@ -43,16 +42,13 @@ interface Submission {
 }
 
 export default function SubmissionPage({ params }: { params: { id: string } }) {
-  const { status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [submission, setSubmission] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
+  // Check if came from admin page
+  const fromAdmin = searchParams.get("from") === "admin";
 
   useEffect(() => {
     const fetchSubmission = async () => {
@@ -195,11 +191,15 @@ export default function SubmissionPage({ params }: { params: { id: string } }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() =>
-                  router.push(`/problems/${submission.problem.slug}`)
-                }
+                onClick={() => {
+                  if (fromAdmin) {
+                    router.push("/admin");
+                  } else {
+                    router.push(`/problems/${submission.problem.slug}`);
+                  }
+                }}
                 className="text-slate-400 hover:text-white transition">
-                ← Back
+                ← Back to {fromAdmin ? "Admin" : "Problem"}
               </button>
               <div>
                 <h1 className="text-xl font-semibold text-white">

@@ -1,0 +1,104 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, XCircle, Loader2 } from "lucide-react";
+
+export default function VerifyEmailPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [status, setStatus] = useState<"loading" | "success" | "error">(
+    "loading",
+  );
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+    const email = searchParams.get("email");
+
+    if (!token || !email) {
+      setStatus("error");
+      setMessage("Invalid verification link");
+      return;
+    }
+
+    // Verify the token
+    fetch("/api/auth/verify-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, email }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setStatus("success");
+          setMessage("Email verified successfully! You can now sign in.");
+        } else {
+          setStatus("error");
+          setMessage(data.error || "Verification failed");
+        }
+      })
+      .catch(() => {
+        setStatus("error");
+        setMessage("An error occurred during verification");
+      });
+  }, [searchParams]);
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-6">
+        <div className="text-center space-y-4">
+          {status === "loading" && (
+            <>
+              <Loader2 className="h-16 w-16 mx-auto text-primary animate-spin" />
+              <h1 className="text-2xl font-bold">Verifying your email...</h1>
+              <p className="text-muted-foreground">Please wait a moment.</p>
+            </>
+          )}
+
+          {status === "success" && (
+            <>
+              <CheckCircle className="h-16 w-16 mx-auto text-green-500" />
+              <h1 className="text-2xl font-bold text-green-500">
+                Email Verified!
+              </h1>
+              <p className="text-muted-foreground">{message}</p>
+              <div className="pt-4">
+                <Button
+                  onClick={() => router.push("/login")}
+                  className="w-full"
+                  size="lg">
+                  Sign In
+                </Button>
+              </div>
+            </>
+          )}
+
+          {status === "error" && (
+            <>
+              <XCircle className="h-16 w-16 mx-auto text-red-500" />
+              <h1 className="text-2xl font-bold text-red-500">
+                Verification Failed
+              </h1>
+              <p className="text-muted-foreground">{message}</p>
+              <div className="pt-4 space-y-3">
+                <Link href="/register">
+                  <Button variant="outline" className="w-full" size="lg">
+                    Try Again
+                  </Button>
+                </Link>
+                <Link href="/login">
+                  <Button variant="ghost" className="w-full">
+                    Back to Sign In
+                  </Button>
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

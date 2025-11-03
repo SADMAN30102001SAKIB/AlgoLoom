@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import ProblemsListClient from "./ProblemsListClient";
+import Link from "next/link";
 
 export default async function AdminProblemsPage() {
   const problems = await prisma.problem.findMany({
@@ -36,11 +37,11 @@ export default async function AdminProblemsPage() {
             Manage all problems, test cases, and examples
           </p>
         </div>
-        <a
+        <Link
           href="/admin/problems/new"
           className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
           + New Problem
-        </a>
+        </Link>
       </div>
 
       <ProblemsListClient initialProblems={transformedProblems} />

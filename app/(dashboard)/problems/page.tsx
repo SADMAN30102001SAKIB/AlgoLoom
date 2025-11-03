@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 interface Problem {
@@ -20,23 +20,25 @@ interface Problem {
 export default function ProblemsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [problems, setProblems] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  // Initialize from URL params
+  const [currentPage, setCurrentPage] = useState(() => {
+    const page = searchParams.get("page");
+    return page ? parseInt(page, 10) : 1;
+  });
+
   const [totalProblems, setTotalProblems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const ITEMS_PER_PAGE = 10;
-  const [filter, setFilter] = useState({
-    difficulty: "",
-    tags: "",
-    status: "",
-  });
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
+  const [filter, setFilter] = useState(() => ({
+    difficulty: searchParams.get("difficulty") || "",
+    tags: searchParams.get("tags") || "",
+    status: searchParams.get("status") || "",
+  }));
 
   const fetchProblems = useCallback(async () => {
     setLoading(true);
@@ -73,13 +75,29 @@ export default function ProblemsPage() {
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
+
+    // Update URL with current page and filters
+    const params = new URLSearchParams();
+    params.set("page", page.toString());
+    if (filter.difficulty) params.set("difficulty", filter.difficulty);
+    if (filter.tags) params.set("tags", filter.tags);
+    if (filter.status) params.set("status", filter.status);
+
+    router.push(`/problems?${params.toString()}`, { scroll: false });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Reset to page 1 when filters change
+  // Reset to page 1 when filters change and update URL
   useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("page", "1");
+    if (filter.difficulty) params.set("difficulty", filter.difficulty);
+    if (filter.tags) params.set("tags", filter.tags);
+    if (filter.status) params.set("status", filter.status);
+
+    router.push(`/problems?${params.toString()}`, { scroll: false });
     setCurrentPage(1);
-  }, [filter.difficulty, filter.tags, filter.status]);
+  }, [filter.difficulty, filter.tags, filter.status, router]);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -104,7 +122,7 @@ export default function ProblemsPage() {
     return null;
   };
 
-  if (status === "loading" || status === "unauthenticated") {
+  if (status === "loading") {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
         <div className="text-white text-xl">Loading...</div>
@@ -123,14 +141,32 @@ export default function ProblemsPage() {
             AlgoLoom
           </Link>
           <div className="flex items-center gap-4">
-            <span className="text-slate-300">
-              Welcome, {session?.user?.email}
-            </span>
-            <Link
-              href="/api/auth/signout"
-              className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition border border-red-500/20">
-              Sign Out
-            </Link>
+            {session?.user ? (
+              <>
+                <span className="text-slate-300">
+                  Welcome,{" "}
+                  {session.user.name || session.user.username || "User"}
+                </span>
+                <Link
+                  href="/api/auth/signout"
+                  className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition border border-red-500/20">
+                  Sign Out
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-slate-300 hover:text-white transition">
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white rounded-lg transition font-medium">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>

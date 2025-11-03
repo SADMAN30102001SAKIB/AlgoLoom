@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import confetti from "canvas-confetti";
 import { IOGuideModal } from "@/components/problems/IOGuideModal";
 import { TestResultsPanel } from "@/components/problems/TestResultsPanel";
@@ -59,6 +59,10 @@ interface Problem {
 export default function ProblemPage({ params }: { params: { slug: string } }) {
   const { status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Check if came from admin page
+  const fromAdmin = searchParams.get("from") === "admin";
   const [problem, setProblem] = useState<Problem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -102,12 +106,6 @@ export default function ProblemPage({ params }: { params: { slug: string } }) {
       fire(0.1, { spread: 120, startVelocity: 45 });
     }
   }, [summary]);
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -258,9 +256,15 @@ export default function ProblemPage({ params }: { params: { slug: string } }) {
       <header className="border-b border-slate-700 bg-slate-800/50 backdrop-blur-sm px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => router.push("/problems")}
+            onClick={() => {
+              if (fromAdmin) {
+                router.push("/admin");
+              } else {
+                router.push("/problems");
+              }
+            }}
             className="text-slate-400 hover:text-white transition">
-            ← Back
+            ← Back to {fromAdmin ? "Admin" : "Problems"}
           </button>
           <h1 className="text-lg font-semibold text-white">{problem.title}</h1>
           <span

@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession, getSession } from "next-auth/react";
 import { useState, Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -23,7 +23,12 @@ function LoginForm() {
   // Redirect if already logged in
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
-      router.replace(callbackUrl);
+      // Redirect based on role
+      if (session.user.role === "ADMIN") {
+        router.replace("/admin");
+      } else {
+        router.replace(callbackUrl);
+      }
     }
   }, [status, session, callbackUrl, router]);
 
@@ -60,8 +65,15 @@ function LoginForm() {
         setError("Invalid email or password");
         setLoading(false);
       } else if (result?.ok) {
-        // Redirect and let server-side handle role-based routing
-        window.location.href = callbackUrl || "/problems";
+        // Get fresh session to check user role
+        const newSession = await getSession();
+
+        // Redirect based on role
+        if (newSession?.user?.role === "ADMIN") {
+          window.location.href = "/admin";
+        } else {
+          window.location.href = callbackUrl || "/problems";
+        }
       }
     } catch (error) {
       console.error("Sign in exception:", error);
@@ -70,8 +82,10 @@ function LoginForm() {
     }
   };
 
-  const handleOAuthLogin = (provider: "google" | "github") => {
-    signIn(provider, { callbackUrl });
+  const handleOAuthLogin = async (provider: "google" | "github") => {
+    // Redirect to callback page which will handle role-based routing
+    const authCallbackUrl = `/auth/callback?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+    await signIn(provider, { callbackUrl: authCallbackUrl });
   };
 
   return (
@@ -94,7 +108,12 @@ function LoginForm() {
         )}
 
         {/* Form */}
-        <div className="space-y-4">
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            handleCredentialsLogin();
+          }}
+          className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -131,14 +150,10 @@ function LoginForm() {
             </div>
           </div>
 
-          <Button
-            onClick={handleCredentialsLogin}
-            disabled={loading}
-            className="w-full"
-            size="lg">
+          <Button type="submit" disabled={loading} className="w-full" size="lg">
             {loading ? "Signing in..." : "Sign in"}
           </Button>
-        </div>
+        </form>
 
         {/* Divider */}
         <div className="relative">

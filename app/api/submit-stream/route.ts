@@ -291,9 +291,6 @@ async function processSubmissionAsync(
             });
             allPassed = false;
           }
-
-          // Add a small delay for UI feedback (100ms per test case)
-          // await new Promise(resolve => setTimeout(resolve, 100));
         }
 
         // Check if all tests are done
@@ -419,8 +416,6 @@ async function processSubmissionAsync(
       await prisma.$transaction(
         async tx => {
           // Update user stats (inside transaction to prevent race conditions)
-          // Note: totalSubmissions field removed from User model
-          // Count is now calculated dynamically from submissions relation
 
           // Check existing stat BEFORE upsert to detect first solve
           // Serializable isolation prevents phantom reads
@@ -480,10 +475,6 @@ async function processSubmissionAsync(
       // Failed submission - update stats and problem stat
       // Use transaction to ensure atomicity
       await prisma.$transaction(async tx => {
-        // Update user submission count (inside transaction)
-        // Note: totalSubmissions field removed from User model
-        // Count is now calculated dynamically from submissions relation
-
         // Update problem stat - only update if not already solved
         await tx.problemStat.upsert({
           where: { userId_problemId: { userId, problemId } },
@@ -516,10 +507,6 @@ async function processSubmissionAsync(
             testCasesPassed: 0,
           },
         });
-
-        // Increment submission count even for catastrophic failures
-        // Note: totalSubmissions field removed from User model
-        // Count is now calculated dynamically from submissions relation
       });
     } catch (updateError) {
       console.error("Failed to update submission after error:", updateError);
@@ -532,6 +519,22 @@ export async function POST(request: NextRequest) {
 
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Check if user's email is verified
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    select: { emailVerified: true },
+  });
+
+  if (!user?.emailVerified) {
+    return NextResponse.json(
+      {
+        error: "Please verify your email before submitting solutions",
+        requiresVerification: true,
+      },
+      { status: 403 },
+    );
   }
 
   try {
