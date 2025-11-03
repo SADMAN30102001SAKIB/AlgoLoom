@@ -57,7 +57,7 @@ interface Problem {
 }
 
 export default function ProblemPage({ params }: { params: { slug: string } }) {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -292,6 +292,7 @@ export default function ProblemPage({ params }: { params: { slug: string } }) {
           onTabChange={handleTabChange}
           onSubmissionDeleted={handleSubmissionDeleted}
           submissionsLoading={submissionsLoading}
+          isAuthenticated={!!session}
         />
 
         {/* Right Panel - Code Editor */}

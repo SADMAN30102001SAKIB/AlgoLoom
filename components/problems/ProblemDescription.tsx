@@ -65,6 +65,7 @@ interface ProblemDescriptionProps {
   onTabChange: (tab: "description" | "submissions" | "solutions") => void;
   onSubmissionDeleted?: (submissionId: string) => void;
   submissionsLoading?: boolean;
+  isAuthenticated?: boolean;
 }
 
 export function ProblemDescription({
@@ -73,6 +74,7 @@ export function ProblemDescription({
   onTabChange,
   onSubmissionDeleted,
   submissionsLoading = false,
+  isAuthenticated = false,
 }: ProblemDescriptionProps) {
   return (
     <div className="w-1/2 border-r border-slate-700 overflow-y-auto">
@@ -96,7 +98,9 @@ export function ProblemDescription({
           </TabButton>
         </div>
 
-        {activeTab === "description" && <DescriptionTab problem={problem} />}
+        {activeTab === "description" && (
+          <DescriptionTab problem={problem} isAuthenticated={isAuthenticated} />
+        )}
         {activeTab === "submissions" && (
           <SubmissionsTab
             submissions={problem.userSubmissions}
@@ -134,7 +138,13 @@ function TabButton({
   );
 }
 
-function DescriptionTab({ problem }: { problem: Problem }) {
+function DescriptionTab({
+  problem,
+  isAuthenticated,
+}: {
+  problem: Problem;
+  isAuthenticated: boolean;
+}) {
   const [hintUsedMarked, setHintUsedMarked] = useState(false);
 
   return (
@@ -239,7 +249,7 @@ function DescriptionTab({ problem }: { problem: Problem }) {
       )}
 
       {/* Hints */}
-      {problem.hints && problem.hints.length > 0 && (
+      {isAuthenticated && problem.hints && problem.hints.length > 0 && (
         <div>
           <h2 className="text-xl font-semibold text-white mb-3">💡 Hints</h2>
           <div className="space-y-3">

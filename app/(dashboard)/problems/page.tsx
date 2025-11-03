@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -23,6 +23,7 @@ export default function ProblemsPage() {
   const searchParams = useSearchParams();
   const [problems, setProblems] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
+  const isInitialMount = useRef(true);
 
   // Initialize from URL params
   const [currentPage, setCurrentPage] = useState(() => {
@@ -39,6 +40,9 @@ export default function ProblemsPage() {
     tags: searchParams.get("tags") || "",
     status: searchParams.get("status") || "",
   }));
+
+  // Track previous filter values to detect actual changes
+  const prevFilterRef = useRef(filter);
 
   const fetchProblems = useCallback(async () => {
     setLoading(true);
@@ -87,8 +91,26 @@ export default function ProblemsPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Reset to page 1 when filters change and update URL
+  // Reset to page 1 when filters change (but not on initial mount)
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      prevFilterRef.current = filter;
+      return;
+    }
+
+    // Check if filter actually changed
+    const filterChanged =
+      prevFilterRef.current.difficulty !== filter.difficulty ||
+      prevFilterRef.current.tags !== filter.tags ||
+      prevFilterRef.current.status !== filter.status;
+
+    if (!filterChanged) {
+      return;
+    }
+
+    prevFilterRef.current = filter;
+
     const params = new URLSearchParams();
     params.set("page", "1");
     if (filter.difficulty) params.set("difficulty", filter.difficulty);
@@ -97,7 +119,7 @@ export default function ProblemsPage() {
 
     router.push(`/problems?${params.toString()}`, { scroll: false });
     setCurrentPage(1);
-  }, [filter.difficulty, filter.tags, filter.status, router]);
+  }, [filter, router]);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
