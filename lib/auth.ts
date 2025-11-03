@@ -105,36 +105,37 @@ export const authConfig: NextAuthConfig = {
           return false;
         }
 
-        const existingUser = await prisma.user.findUnique({
+        // Use upsert to avoid race conditions
+        const username =
+          user.email!.split("@")[0] + Math.floor(Math.random() * 1000);
+
+        await prisma.user.upsert({
           where: { email: user.email },
+          update: {
+            // Update last login info
+            name: user.name,
+            image: user.image,
+          },
+          create: {
+            email: user.email!,
+            username: username,
+            name: user.name,
+            image: user.image,
+            emailVerified: new Date(),
+            role: "USER",
+          },
         });
-
-        if (!existingUser) {
-          // Create new user for OAuth login
-          const username =
-            user.email!.split("@")[0] + Math.floor(Math.random() * 1000);
-
-          await prisma.user.create({
-            data: {
-              email: user.email!,
-              username: username,
-              name: user.name,
-              image: user.image,
-              emailVerified: new Date(),
-              role: "USER",
-            },
-          });
-        }
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
+      // On initial sign-in, set user data
       if (user?.id) {
         token.id = user.id;
         token.role = user.role;
       }
-      // For OAuth, fetch user from database if not set
-      if (!token.id && token.email) {
+      // For OAuth first-time login, fetch user from database (only once)
+      else if (trigger === "signIn" && !token.id && token.email) {
         const dbUser = await prisma.user.findUnique({
           where: { email: token.email as string },
         });
@@ -156,7 +157,7 @@ export const authConfig: NextAuthConfig = {
       // Allow relative URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allow same-origin absolute URLs
-      else if (new URL(url).origin === baseUrl) return url;
+      if (new URL(url).origin === baseUrl) return url;
       // Default to problems page for successful OAuth logins
       return `${baseUrl}/problems`;
     },

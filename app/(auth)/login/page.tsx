@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, getSession, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useState, Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -60,20 +60,8 @@ function LoginForm() {
         setError("Invalid email or password");
         setLoading(false);
       } else if (result?.ok) {
-        // Check user role to determine redirect destination
-        try {
-          // Small delay to ensure session is established
-          await new Promise(resolve => setTimeout(resolve, 500));
-          const session = await getSession();
-          const redirectUrl =
-            session?.user?.role === "ADMIN"
-              ? "/admin"
-              : callbackUrl || "/problems";
-          window.location.href = redirectUrl;
-        } catch (sessionError) {
-          console.error("Error getting session:", sessionError);
-          window.location.href = callbackUrl || "/problems";
-        }
+        // Redirect and let server-side handle role-based routing
+        window.location.href = callbackUrl || "/problems";
       }
     } catch (error) {
       console.error("Sign in exception:", error);
@@ -83,7 +71,7 @@ function LoginForm() {
   };
 
   const handleOAuthLogin = (provider: "google" | "github") => {
-    signIn(provider);
+    signIn(provider, { callbackUrl });
   };
 
   return (

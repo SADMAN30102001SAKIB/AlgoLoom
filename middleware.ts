@@ -5,6 +5,19 @@ import { auth } from "@/lib/auth";
 // Rate limiting storage (use Redis/Upstash in production)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 
+// Clean up expired entries every 5 minutes to prevent memory leak
+setInterval(
+  () => {
+    const now = Date.now();
+    rateLimitMap.forEach((value, key) => {
+      if (now > value.resetTime) {
+        rateLimitMap.delete(key);
+      }
+    });
+  },
+  5 * 60 * 1000,
+);
+
 function rateLimit(
   identifier: string,
   limit: number,
@@ -65,11 +78,15 @@ export async function middleware(request: NextRequest) {
 
   // Protected routes - require authentication
   const protectedPaths = ["/problems", "/profile", "/leaderboard"];
+  const adminPaths = ["/admin"];
+
   const isProtectedPath = protectedPaths.some(path =>
     pathname.startsWith(path),
   );
+  const isAdminPath = adminPaths.some(path => pathname.startsWith(path));
 
-  if (isProtectedPath) {
+  // Check authentication once for both protected and admin routes
+  if (isProtectedPath || isAdminPath) {
     const session = await auth();
 
     if (!session?.user) {
@@ -77,16 +94,9 @@ export async function middleware(request: NextRequest) {
       signInUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(signInUrl);
     }
-  }
 
-  // Admin-only routes
-  const adminPaths = ["/admin"];
-  const isAdminPath = adminPaths.some(path => pathname.startsWith(path));
-
-  if (isAdminPath) {
-    const session = await auth();
-
-    if (!session?.user || session.user.role !== "ADMIN") {
+    // Additional check for admin-only routes
+    if (isAdminPath && session.user.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

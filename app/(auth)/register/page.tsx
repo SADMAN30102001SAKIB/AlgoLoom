@@ -118,7 +118,7 @@ export default function RegisterPage() {
   };
 
   const handleOAuthSignup = (provider: "google" | "github") => {
-    signIn(provider);
+    signIn(provider, { callbackUrl: "/problems" });
   };
 
   return (

@@ -57,9 +57,6 @@ async function processSubmissionAsync(
             testCasesPassed: 0,
           },
         });
-
-        // Note: totalSubmissions field removed from User model
-        // Count is now calculated dynamically from submissions relation
       });
       return;
     }
@@ -83,9 +80,6 @@ async function processSubmissionAsync(
             testCasesPassed: 0,
           },
         });
-
-        // Note: totalSubmissions field removed from User model
-        // Count is now calculated dynamically from submissions relation
       });
       return;
     }
