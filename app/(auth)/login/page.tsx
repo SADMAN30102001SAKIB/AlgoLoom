@@ -1,8 +1,8 @@
 "use client";
 
-import { signIn, getSession } from "next-auth/react";
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { signIn, getSession, useSession } from "next-auth/react";
+import { useState, Suspense, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,12 +11,21 @@ import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
 function LoginForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const { data: session, status } = useSession();
   const callbackUrl = searchParams.get("callbackUrl") || "/problems";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      router.push(callbackUrl);
+    }
+  }, [status, session, callbackUrl, router]);
 
   const handleCredentialsLogin = async () => {
     setError("");

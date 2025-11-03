@@ -157,8 +157,8 @@ export const authConfig: NextAuthConfig = {
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allow same-origin absolute URLs
       else if (new URL(url).origin === baseUrl) return url;
-      // Default to home
-      return baseUrl;
+      // Default to problems page for successful OAuth logins
+      return `${baseUrl}/problems`;
     },
   },
   pages: {
