@@ -46,6 +46,24 @@ export async function verifyToken(
 
   // Check if token is expired
   if (verificationToken.expires < new Date()) {
+    // Try to delete expired token, but don't fail if it doesn't exist
+    try {
+      await prisma.verificationToken.delete({
+        where: {
+          identifier_token: {
+            identifier: email,
+            token,
+          },
+        },
+      });
+    } catch {
+      // Token already deleted, ignore
+    }
+    return false;
+  }
+
+  // Token is valid - delete it and mark user as verified
+  try {
     await prisma.verificationToken.delete({
       where: {
         identifier_token: {
@@ -54,18 +72,21 @@ export async function verifyToken(
         },
       },
     });
+  } catch {
+    // Token already deleted, check if user is already verified
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: { emailVerified: true },
+    });
+
+    // If user is already verified, return true (successful verification)
+    if (user?.emailVerified) {
+      return true;
+    }
+
+    // Otherwise, token was deleted but user not verified (error state)
     return false;
   }
-
-  // Token is valid - delete it and mark user as verified
-  await prisma.verificationToken.delete({
-    where: {
-      identifier_token: {
-        identifier: email,
-        token,
-      },
-    },
-  });
 
   await prisma.user.update({
     where: { email },

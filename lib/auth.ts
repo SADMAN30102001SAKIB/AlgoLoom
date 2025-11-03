@@ -50,6 +50,7 @@ export const authConfig: NextAuthConfig = {
           username: user.username,
           image: user.image,
           role: user.role,
+          emailVerified: user.emailVerified,
         };
       },
     }),
@@ -135,6 +136,7 @@ export const authConfig: NextAuthConfig = {
         token.id = user.id;
         token.role = user.role;
         token.username = user.username;
+        token.emailVerified = user.emailVerified;
       }
       // For OAuth first-time login, fetch user from database (only once)
       else if (trigger === "signIn" && !token.id && token.email) {
@@ -145,6 +147,7 @@ export const authConfig: NextAuthConfig = {
           token.id = dbUser.id;
           token.role = dbUser.role;
           token.username = dbUser.username;
+          token.emailVerified = dbUser.emailVerified;
         }
       }
       return token;
@@ -154,6 +157,7 @@ export const authConfig: NextAuthConfig = {
         session.user.id = token.id;
         session.user.role = token.role;
         session.user.username = token.username;
+        session.user.emailVerified = token.emailVerified ?? null;
       }
       return session;
     },
