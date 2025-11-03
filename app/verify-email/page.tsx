@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
@@ -9,6 +10,7 @@ import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { update } = useSession();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
   );
@@ -31,10 +33,15 @@ function VerifyEmailContent() {
       body: JSON.stringify({ token, email }),
     })
       .then(res => res.json())
-      .then(data => {
+      .then(async data => {
         if (data.success) {
           setStatus("success");
           setMessage("Email verified successfully! You can now sign in.");
+
+          // Update session to refresh emailVerified status
+          if (update) {
+            await update();
+          }
         } else {
           setStatus("error");
           setMessage(data.error || "Verification failed");
@@ -44,7 +51,7 @@ function VerifyEmailContent() {
         setStatus("error");
         setMessage("An error occurred during verification");
       });
-  }, [searchParams]);
+  }, [searchParams, update]);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">

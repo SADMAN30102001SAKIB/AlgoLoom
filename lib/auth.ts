@@ -145,6 +145,18 @@ export const authConfig: NextAuthConfig = {
           token.emailVerified = dbUser.emailVerified;
         }
       }
+      // Refresh token data from database on update trigger (e.g., after email verification)
+      else if (trigger === "update" && token.email) {
+        const dbUser = await prisma.user.findUnique({
+          where: { email: token.email as string },
+        });
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.role = dbUser.role;
+          token.username = dbUser.username;
+          token.emailVerified = dbUser.emailVerified;
+        }
+      }
       // For credentials provider, user data comes from authorize()
       else if (user?.id) {
         token.id = user.id;
