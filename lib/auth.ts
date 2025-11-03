@@ -133,15 +133,8 @@ export const authConfig: NextAuthConfig = {
       return true;
     },
     async jwt({ token, user, trigger }) {
-      // On initial sign-in, set user data
-      if (user?.id) {
-        token.id = user.id;
-        token.role = user.role;
-        token.username = user.username;
-        token.emailVerified = user.emailVerified;
-      }
-      // For OAuth or any signIn without user.id, fetch user from database
-      else if (trigger === "signIn" && token.email) {
+      // Always fetch from database on sign-in to get latest data
+      if (trigger === "signIn" && token.email) {
         const dbUser = await prisma.user.findUnique({
           where: { email: token.email as string },
         });
@@ -151,6 +144,13 @@ export const authConfig: NextAuthConfig = {
           token.username = dbUser.username;
           token.emailVerified = dbUser.emailVerified;
         }
+      }
+      // For credentials provider, user data comes from authorize()
+      else if (user?.id) {
+        token.id = user.id;
+        token.role = user.role;
+        token.username = user.username;
+        token.emailVerified = user.emailVerified;
       }
       return token;
     },
