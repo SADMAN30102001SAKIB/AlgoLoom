@@ -153,25 +153,10 @@ export const authConfig: NextAuthConfig = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // Check if this is a login redirect (not a callbackUrl redirect)
-      if (url === baseUrl || url === `${baseUrl}/`) {
-        try {
-          // Small delay to ensure session is established
-          await new Promise(resolve => setTimeout(resolve, 100));
-          const session = await auth();
-          if (session?.user?.role === "ADMIN") {
-            return `${baseUrl}/admin`;
-          }
-          return `${baseUrl}/problems`;
-        } catch {
-          // Error checking session in redirect
-        }
-      }
-
       // Allow relative URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allow same-origin absolute URLs
-      if (new URL(url).origin === baseUrl) return url;
+      else if (new URL(url).origin === baseUrl) return url;
       // Default to home
       return baseUrl;
     },
